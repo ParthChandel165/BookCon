@@ -162,7 +162,7 @@ const ProfileContent = ({ active }) => {
                 )
             }
 
-            {/* Odder  */}
+            {/* Order  */}
             {
                 active === 2 && (
                     <div>

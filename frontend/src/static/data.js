@@ -553,21 +553,24 @@ export const productData = [
 
 export const footerProductLinks = [
   {
-    name: "About us",
-    link: "/about",
+    name: "Aditya Pande",
+    link: "https://www.linkedin.com/in/nottpande/",
   },
   {
-    name: "Careers",
-    link: "/carrers",
+    name: "Parth Chandel",
+    link: "https://www.linkedin.com/in/parth-chandel-98880226b/",
   },
   {
-    name: "Store Locations",
+    name: "Sathyam A",
+    link: "https://www.linkedin.com/in/isathyam31/"
   },
   {
-    name: "Our Blog",
+    name: "Sravya Sri",
+    link: "https://www.linkedin.com/in/sravya-sri-mallampalli/"
   },
   {
-    name: "Reviews",
+    name: "Amodini AP",
+    link: "https://www.linkedin.com/in/amodiniap/"
   },
 ];
 

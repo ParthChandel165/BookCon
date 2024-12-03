@@ -87,7 +87,7 @@ const ProfileSidebar = ({ active, setActive }) => {
             active === 4 ? "text-[red]" : ""
           } 800px:block hidden`}
         >
-          inbox
+          Inbox
         </span>
       </div>
 
@@ -165,7 +165,7 @@ const ProfileSidebar = ({ active, setActive }) => {
             active === 8 ? "text-[red]" : ""
           } 800px:block hidden`}
         >
-          loguot
+          Logout
         </span>
       </div>
     </div>
