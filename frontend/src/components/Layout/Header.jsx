@@ -235,11 +235,11 @@ const Header = ({ activeHeading }) => {
           </div>
           <div>
             <Link to="/">
-              <img
-                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
-                alt=""
-                className="mt-3 cursor-pointer"
-              />
+            <img
+            src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png"
+            alt="BookCon Logo"
+            className="w-[170px] h-auto"
+            />
             </Link>
           </div>
 
