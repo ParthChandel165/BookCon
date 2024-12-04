@@ -8,8 +8,6 @@ BookCon is a multi-vendor platform designed for book enthusiasts, where users ca
 Buyers can easily browse or search for books, add them to their shopping carts, and place orders using one of three available payment methods. BookCon fosters a seamless and engaging experience, connecting readers, sellers, and administrators in a vibrant book marketplace.
 </div>
 
-## HoNOLULU
-
 ## 🖥️ Tech Stack
 **Frontend:**
 
