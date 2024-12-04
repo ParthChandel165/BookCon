@@ -126,7 +126,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - Delete Bank Details 
 - Shop Inbox 
     - All Messages 
-    - Sand Image to user 
+    - Send Image to user 
     - Show Active function 
 - Discount Codes 
   - Create coupon code 
