@@ -36,23 +36,23 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 
 - User Authentication Pages 
   - User Signup 
-    - email verification
-    - upload a Profile image 
+    - Email verification
+    - Upload a Profile image 
   - User Login 
 - Home Page 
   - View all product uploads by seller 
-  - filter with the category 
+  - Filter with the category 
   - Best-selling product (Sort by Sold_out data) 
   - All Product 
   - All Event's 
   - FAQ 
 - Filters for Sorting Posts 
-  - Sort posts by Clothes, Shows, gifts, etc...
+  - Sort posts by categories of books
 - User Search Bar 
   - Search for product 
   - Click on a user to go to the Product details page 
-- wish list 
-  - store in cart 
+- Wish list 
+  - Store in cart 
 - Add to cart 
   - Check out for payment 
     - we have 2 payment systems,**Card**,**Cash of Delivery (COD)**
@@ -62,37 +62,35 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - View reviews from other users 
   - The eye button shows Product Details 
   - Original Price and discount price 
-  - HowMeney Buy this product  
+  - How Many people bought this product  
   - Inc and Dec product   
   - Show Description of product 
   - View Seller Profile 
   - Chating with Seller 
   - Show Seller Information 
   - Show Related Products 
-  - Add to wish list 
+  - Add to Wishlist 
   - Add to Cart  
 - User Profile Page 
   - Edit your profile details - profile photo, name, email, phone number 
-  - change Password 
-  - View All Order 
+  - Change Password 
+  - View All Orders
   - After Delivery of the product user can Refund the product. 
   - User inbox Chat with the seller. 
-  - Use can Track Orders. 
-  - Store 3 Address Details. Like Default, Home, office. 
+  - Use can Track Orders.
   - **Only Admin show Admin Dashboard** 
   - Logout 
-  - Create a Review After Delivery Product 
-  - After the Buy product is Sold out is increased. and Stock decrease in DB.
+  - Create a Review After Delivery Product
 
 - Message 
   - Send Message 
   - Show active or not 
-  - Time of sand Message 
+  - Time of Message that is sent. 
 - Popular Events 
   - Show Recent Events
 - Seller Authentication Pages 
   - Seller Signup 
-    - shop name, Phone Number, Email address, Address,Zip Code, Password 
+    - shop name, Phone Number, Email address, Address, Zip Code, Password 
     - upload a Profile image 
     - email verification 
   -  Seller Login 
@@ -106,7 +104,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
      - Description *
      - Category * 
   - All product 
-     - Seller can delete Product 
+     - Seller can delete Products 
     - View all Products 
  - Create an Event  
     - name* 
@@ -117,31 +115,30 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
    - Price (With Discount) *
    - Product Stock *
    - Event Start Date * 
-   - Event End Date * (Default 3 days) 
-   - Upload multiple Images * 
+   - Event End Date * (Default 3 days)
 - All Event 
   - Show Event 
   - Delete Event  
 - Withdraw Money 
   - Add Bank Details 
   - Not withdraw the highest amount of Balance 
-  - Sand mail to sell with amount 
+  - Send mail to sell with amount 
   - Delete Bank Details 
 - Shop Inbox 
     - All Messages 
     - Sand Image to user 
-    - Show Activ function 
+    - Show Active function 
 - Discount Codes 
   - Create coupon code 
   - Delete coupon code 
-  - apply all Products of the shop  
+  - Apply all Products of the shop  
   - Can apply the specific product 
 - Refunds 
   - Seller can update the Status of the Product 
 - Settings 
-  - update Images, Shop Address, Shop Phone Number, Shop Zip Code ⛓
+  - update Images, Shop Address, Shop Phone Number, Shop Zip Code 
   - Add Shop description 
-- Shop Desboard 
+- Shop Dashboard 
    - Shop Products 
    - Running Events 
    - Shop Reviews 
@@ -154,13 +151,13 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
         - All Sellers 
         - All Orders 
         - Latest Orders 
-  - Show All Orders of Seller's 
+  - Show All Orders of Seller
   - Show All sellers and Delete 
   - Show All users and Delete 
   - All Products in DB. 
   - All Events of Seller 
-  - verify  Seller Withdraw request and Sand mail to update's 
-  - if Delete images it also deletes from the local devise
+  - Verify  Seller Withdraw request and Send mail to update's 
+  - If Delete images it also deletes from the local device.
 
 ## File structure
 #### `frontend` - Holds the client application
@@ -172,7 +169,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
       - cart
       - Checkout
       - Events
-      - layout
+      - Layout
       - Logout
       - Payment
       - Products
