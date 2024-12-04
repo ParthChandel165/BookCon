@@ -56,7 +56,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - store in cart 👀
 - Add to cart 🛒
   - Check out for payment 💳
-    - we have 3 payment systems **Pay-pal**,**Strip**,**Cash of Delivery (COD)**
+    - we have 3 payment systems,**Strip**,**Cash of Delivery (COD)**
 - Apply Coupon Code for Discount 👉💥
 - Product Explore Page 🔍
   - View Product from another seller 🌍
