@@ -56,7 +56,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - store in cart 👀
 - Add to cart 🛒
   - Check out for payment 💳
-    - we have 3 payment systems,**Strip**,**Cash of Delivery (COD)**
+    - we have 2 payment systems,**UPI**,**Cash of Delivery (COD)**
 - Apply Coupon Code for Discount 👉💥
 - Product Explore Page 🔍
   - View Product from another seller 🌍
@@ -86,7 +86,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - After the Buy product is Sold out is increased. and Stock decrease in DB.
 
 - Message ✉️
-  - Sand Image 🖼️
+  - Send Image 🖼️
   - Show active or not 🟢
   - Time of sand Message ⏰
 - Popular Events 💥
