@@ -168,7 +168,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - if Delete images it also deletes from the local devise
 
 ## File structure
-#### `client` - Holds the client application
+#### `frontend` - Holds the client application
 - #### `public` - This holds all of our static files
 - #### `src`
     - #### `assets` - This folder holds assets such as images, docs, and fonts
@@ -195,7 +195,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
     - #### `App.js` - This is what renders all of our browser routes and different views
     - #### `index.js` - This is what renders the react app by rendering App.js, should not change
 - #### `package.json` - Defines npm behaviors and packages for the client
-#### `server` - Holds the server application
+#### `backend` - Holds the server application
 - #### `config` - This holds our configuration files, like mongoDB uri
 - #### `controller` - These hold all of the callback functions that each route will call
 - #### `db` - These hold all of Data Base Connection
