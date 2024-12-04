@@ -9,7 +9,7 @@ BookCon is a multi-vendor platform designed for book enthusiasts, where users ca
 Buyers can easily browse or search for books, add them to their shopping carts, and place orders using one of three available payment methods. BookCon fosters a seamless and engaging experience, connecting readers, sellers, and administrators in a vibrant book marketplace.
 </div>
 
-## 🖥️ Tech Stack
+##  Tech Stack
 **Frontend:**
 
 ![reactjs](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)&nbsp;
@@ -23,7 +23,6 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 ![nodejs](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)&nbsp;
 ![expressjs](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)&nbsp;
 ![mongodb](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)&nbsp;
-![jwt](	https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)&nbsp;
 
 **Realtime Communication:**
 
@@ -33,138 +32,134 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 
 ![Yarn](https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)
 
-## 🚀 Features
+##  Features
 
-- User Authentication Pages 🚪
+- User Authentication Pages 
   - User Signup 📝
     - email verification
     - upload a Profile image 
-  - User Login 🔐
-- Home Page 🏠
-  - View all product uploads by seller 📃
+  - User Login 
+- Home Page 
+  - View all product uploads by seller 
   - filter with the category 📊
-  - Best-selling product (Sort by Sold_out data) 💎
-  - All Product 📦
-  - All Event's 🎊
-  - FAQ 🙋
-- Filters for Sorting Posts 🗂️
+  - Best-selling product (Sort by Sold_out data) 
+  - All Product 
+  - All Event's 
+  - FAQ 
+- Filters for Sorting Posts 
   - Sort posts by Clothes, Shows, gifts, etc...
-- User Search Bar 🔍
-  - Search for product 🔎
-  - Click on a user to go to the Product details page 👤
-- wish list ❤️
-  - store in cart 👀
+- User Search Bar 
+  - Search for product 
+  - Click on a user to go to the Product details page 
+- wish list 
+  - store in cart 
 - Add to cart 🛒
-  - Check out for payment 💳
-    - we have 2 payment systems,**UPI**,**Cash of Delivery (COD)**
-- Apply Coupon Code for Discount 👉💥
-- Product Explore Page 🔍
-  - View Product from another seller 🌍
-  - View reviews from other users ⭐
-  - The eye button shows Product Details 👁
-  - Original Price and discount price 💵
-  - HowMeney Buy this product  🤝
-  - Inc and Dec product  📉 +
-  - Show Description of product 📃
-  - View Seller Profile 👥
-  - Chating with Seller 💬
-  - Show Seller Information 📋
-  - Show Related Products 🔗
-  - Add to wish list ❤️
-  - Add to Cart  🛒
-- User Profile Page 👤
-  - Edit your profile details - profile photo, name, email, phone number ✏️
-  - change Password 🔐
-  - View All Order 👨🏾‍💻.
-  - After Delivery of the product user can Refund the product. 🔙
-  - User inbox Chat with the seller. ✉️
-  - Use can Track Orders. 🛤️
-  - Store 3 Address Details. Like Default, Home, office. 📫
-  - **Only Admin show Admin Dashboard** 👑
-  - Logout 🔚
-  - Create a Review After Delivery Product 🚛
+  - Check out for payment 
+    - we have 2 payment systems,**Card**,**Cash of Delivery (COD)**
+- Apply Coupon Code for Discount 
+- Product Explore Page 
+  - View Product from another seller 
+  - View reviews from other users 
+  - The eye button shows Product Details 
+  - Original Price and discount price 
+  - HowMeney Buy this product  
+  - Inc and Dec product   
+  - Show Description of product 
+  - View Seller Profile 
+  - Chating with Seller 
+  - Show Seller Information 
+  - Show Related Products 
+  - Add to wish list 
+  - Add to Cart  
+- User Profile Page 
+  - Edit your profile details - profile photo, name, email, phone number 
+  - change Password 
+  - View All Order 
+  - After Delivery of the product user can Refund the product. 
+  - User inbox Chat with the seller. 
+  - Use can Track Orders. 
+  - Store 3 Address Details. Like Default, Home, office. 
+  - **Only Admin show Admin Dashboard** 
+  - Logout 
+  - Create a Review After Delivery Product 
   - After the Buy product is Sold out is increased. and Stock decrease in DB.
 
-- Message ✉️
-  - Send Image 🖼️
-  - Show active or not 🟢
-  - Time of sand Message ⏰
-- Popular Events 💥
+- Message 
+  - Send Message 
+  - Show active or not 
+  - Time of sand Message 
+- Popular Events 
   - Show Recent Events
-- Responsive 📱
-  - All screens are responsive
-- Alerts 🚨
-  - Alerts in the app to notify users about success/failure operations
-- Seller Authentication Pages 🚪
-  - Seller Signup 📝
-    - shop name, Phone Number, Email address, Address,Zip Code, Password ✍
-    - upload a Profile image 📷
-    - email verification ✅
-  -  Seller Login 🔐
-- Seller Dashboard 👨🏻‍🔧
-  - Overview of a Product and Latest Orders 🖇️
-  - Account Balance (with 10% service charge) 💰
-- All Orders ⚖
-   - Seller Update Product Delivery status 📆
-  - Create Products  ✔️
+- Seller Authentication Pages 
+  - Seller Signup 
+    - shop name, Phone Number, Email address, Address,Zip Code, Password 
+    - upload a Profile image 
+    - email verification 
+  -  Seller Login 
+- Seller Dashboard 
+  - Overview of a Product and Latest Orders 
+  - Account Balance (with 10% service charge) 
+- All Orders 
+   - Seller Update Product Delivery status 
+  - Create Products  
      - name*
      - Description *
      - Category * 
-  - All product 💻
-     - Seller can delete Product ❌
-    - View all Products 📦
- - Create an Event  💥🎉
-    - name* 📇
+  - All product 
+     - Seller can delete Product 
+    - View all Products 
+ - Create an Event  
+    - name* 
    - Description *
    - Category *  
    - Tags
    - Original Price
    - Price (With Discount) *
    - Product Stock *
-   - Event Start Date * ✅
-   - Event End Date * (Default 3 days) ⛔
-   - Upload multiple Images * 📷
-- All Event 🎉
-  - Show Event 💥
-  - Delete Event  ⛔
-- Withdraw Money 📥
-  - Add Bank Details 🏛️
-  - Not withdraw the highest amount of Balance 💱
-  - Sand mail to sell with amount 📩
-  - Delete Bank Details 🪧
-- Shop Inbox 📞
-    - All Messages 📬
-    - Sand Image to user 🖼️
-    - Show Activ function 🟢
-- Discount Codes 🎟️
-  - Create coupon code 🖱
-  - Delete coupon code 🛑
-  - apply all Products of the shop  🤩
-  - Can apply the specific product 1️⃣☝️
-- Refunds 🔙
-  - Seller can update the Status of the Product 🔄
-- Settings ⚛
+   - Event Start Date * 
+   - Event End Date * (Default 3 days) 
+   - Upload multiple Images * 
+- All Event 
+  - Show Event 
+  - Delete Event  
+- Withdraw Money 
+  - Add Bank Details 
+  - Not withdraw the highest amount of Balance 
+  - Sand mail to sell with amount 
+  - Delete Bank Details 
+- Shop Inbox 
+    - All Messages 
+    - Sand Image to user 
+    - Show Activ function 
+- Discount Codes 
+  - Create coupon code 
+  - Delete coupon code 
+  - apply all Products of the shop  
+  - Can apply the specific product 
+- Refunds 
+  - Seller can update the Status of the Product 
+- Settings 
   - update Images, Shop Address, Shop Phone Number, Shop Zip Code ⛓
-  - Add Shop description 📖
-- Shop Desboard 🎰
-   - Shop Products 🌃
-   - Running Events 🎪
-   - Shop Reviews ⭐
-   - Log out  ↪️
-- Admin Authentication Pages (normal user in DB roll in Admin) 🚪
-   - Admin Signup 📝
-   - Admin Login 🔐
-  - Overview 👔
-        - Total Earning 🤑
-        - All Sellers 👨‍🔧
-        - All Orders 🛍️
-        - Latest Orders 🔢
-  - Show All Orders of Seller's 🛍️
-  - Show All sellers and Delete ⛔
-  - Show All users and Delete 👨‍👩‍👦‍👦 ⛔
-  - All Products in DB. 👨🏻‍💻
-  - All Events of Seller 📢
-  - verify  Seller Withdraw request and Sand mail to update's 📧
+  - Add Shop description 
+- Shop Desboard 
+   - Shop Products 
+   - Running Events 
+   - Shop Reviews 
+   - Log out  
+- Admin Authentication Pages (normal user in DB roll in Admin) 
+   - Admin Signup 
+   - Admin Login 
+  - Overview 
+        - Total Earning 
+        - All Sellers 
+        - All Orders 
+        - Latest Orders 
+  - Show All Orders of Seller's 
+  - Show All sellers and Delete 
+  - Show All users and Delete 
+  - All Products in DB. 
+  - All Events of Seller 
+  - verify  Seller Withdraw request and Sand mail to update's 
   - if Delete images it also deletes from the local devise
 
 ## File structure
@@ -215,7 +210,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 
 ---
 
-💻 How to run the app locally! 🏃
+How to run the app locally! 
 
 ### STEP-1
 `git clone https://github.com/pattjoshi/Multi_vondor_E_shop.git`
@@ -259,5 +254,3 @@ PORT = 4000
 
 
 ©2024 BookCon. All rights reserved.
-
-
