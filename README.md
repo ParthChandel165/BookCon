@@ -3,7 +3,9 @@
 
 ## 🌟BookCon🌟
 
-The MERN Marketplace application will allow users to become sellers, who can manage  shops, and add the products they want to sell in each shop. Admin can control functionality of Seller Users who visit MERN Marketplace will be able to search for and browse products they want to buy, and add products to their shopping cart to place an order. we have 3 Order Method.
+BookCon is a multi-vendor platform designed for book enthusiasts, where users can buy and sell books. The application allows users to register as sellers, enabling them to create and manage their shops and list books for sale. Administrators oversee the platform, ensuring smooth seller activities and maintaining overall functionality.
+
+Buyers can easily browse or search for books, add them to their shopping carts, and place orders using one of three available payment methods. BookCon fosters a seamless and engaging experience, connecting readers, sellers, and administrators in a vibrant book marketplace.
 </div>
 
 ## HoNOLULU
@@ -32,15 +34,6 @@ The MERN Marketplace application will allow users to become sellers, who can man
 **package manager**
 
 ![Yarn](https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)
-
-- **Show Error:** [Toastify](https://www.npmjs.com/package/react-toastify)           <br/>
-- **Data Fetch from Backent:** [axios](https://www.npmjs.com/package/axios)   <br/>
-- **Icons:** [react-icons](https://react-icons.github.io/react-icons/)   <br/>
-- **Payment stripe:** [Strip](https://dashboard.stripe.com/login?redirect=%2Ftest%2Fpayments)   <br/>
-- **Payment Paypal:** [Strip](https://www.paypal.com/in/home)   <br/>
-- **Store Date in Cookes:** [js-cookie](https://www.npmjs.com/package/js-cookie)   <br/>
-- **Sand maill to User,seller,Admin:** [nodemailer](https://www.npmjs.com/package/nodemailer)   <br/>
-- **Store Img in Local Dev:**  [multer](https://www.npmjs.com/package/multer)
 
 ## 🚀 Features
 
@@ -118,14 +111,14 @@ The MERN Marketplace application will allow users to become sellers, who can man
   - Create Products  ✔️
      - name*
      - Description *
-     - Category *  like:- Computer and Laptops, Cosmetics and body care, Accessories, clothes,Shoes, Gifts, Pet Care, Mobile and Tablets, Music and Gaming, Other 🧩
+     - Category * 
   - All product 💻
      - Seller can delete Product ❌
     - View all Products 📦
  - Create an Event  💥🎉
     - name* 📇
    - Description *
-   - Category *  like:- Computer and Laptops, Cosmetics and body care,Accessories, Clothes, Shoes,Gifts, Pet Care, Mobile and Tablets, Music and Gaming, Other
+   - Category *  
    - Tags
    - Original Price
    - Price (With Discount) *
@@ -176,9 +169,98 @@ The MERN Marketplace application will allow users to become sellers, who can man
   - verify  Seller Withdraw request and Sand mail to update's 📧
   - if Delete images it also deletes from the local devise
 
-## 📹 Video Demo
+## File structure
+#### `client` - Holds the client application
+- #### `public` - This holds all of our static files
+- #### `src`
+    - #### `assets` - This folder holds assets such as images, docs, and fonts
+    - #### `components` - This folder holds all of the different components that will make up our views
+      - Admin
+      - cart
+      - Checkout
+      - Events
+      - layout
+      - Logout
+      - Payment
+      - Products
+      - Profile
+      - Route
+      - Shop
+      - Signup
+      - Wishlist
+     - #### `pages` - This folder holds All pages Admin, shop, user
+       - Shop
+     - #### `redux` - This folder holds all states of the Web app
+       - action
+       - reducer
+     - #### `static` - This folder holds Static file like logo categorie
+    - #### `App.js` - This is what renders all of our browser routes and different views
+    - #### `index.js` - This is what renders the react app by rendering App.js, should not change
+- #### `package.json` - Defines npm behaviors and packages for the client
+#### `server` - Holds the server application
+- #### `config` - This holds our configuration files, like mongoDB uri
+- #### `controller` - These hold all of the callback functions that each route will call
+- #### `db` - These hold all of Data Base Connection
+- #### `middleware` - These hold all error handle
+- #### `models` - This holds all of our data models
+- #### `uploads` - Store all image in hear
+- #### `utils` - This holds all of our HTTP to URL. jwtToken and sand mail, Token gentrare
+- #### `mlter.js` - Sand mail login
+- #### `server.js` - Defines npm behaviors and packages for the client
+- #### `package.json` - Defines npm behaviors like the scripts defined in the next section of the README
+#### `socket` - Socket.io is use to chaing feacher
+  - .env
+  - index.js
+  - package.json
+#### `.gitignore` - Tells git which files to ignore
+#### `README` - This file!
 
-- Video Size is high So, I can not upload it to Github.I upload it to youtube.[Vedo Demo heaar](https://www.youtube.com/watch?v=J7PWBRnEIv8)
+---
+
+💻 How to run the app locally! 🏃
+
+### STEP-1
+`git clone https://github.com/pattjoshi/Multi_vondor_E_shop.git`
+
+### STEP-2
+- `cd frontend`
+- `yarn install`
+- `yarn start`
+
+### STEP-3
+- `cd backend`
+- `yarn install`
+- create folder `uploads`
+- create `confilg` folder and a `.env` file
+- use your Cradincial in.env file
+
+```
+PORT = 8000
+DB_URL = ""
+JWT_SECRET_KEY = ""
+JWT_EXPIRES = 7d
+ACTIVATION_SECRET = 
+SMPT_HOST = 'smtp.gmail.com'
+SMPT_PORT = 465
+SMPT_PASSWORD = 
+SMPT_MAIL =
+STRIPE_API_KEY = 
+STRIPE_SECRET_KEY = 
+```
+- `yarn start`
+
+### STEP-4
+
+- `cd socket`
+- `yarn install`
+- create a `.env` file
+```
+PORT = 4000
+```
+- `yarn start`
+
+
+
 
 ## Sneak Peek of Home Page 🙈 :
 ![home](https://github.com/pattjoshi/Multi_vondor_E_shop/assets/78966839/14dfa843-e495-4fd7-bffe-b10b7a65cfc9)
@@ -316,234 +398,5 @@ The MERN Marketplace application will allow users to become sellers, who can man
   </tr>
 </table>
 
------
 
-## Project description 📝
-
-🌟 Introducing MERN Marketplace: A Revolutionary Multi-Vendor Website 🌟
-
-🚀 Dear LinkedIn Network, I am thrilled to announce the completion of my latest project, the MERN Marketplace! 🌟 This dynamic platform brings together buyers and sellers, offering a seamless online shopping experience with a plethora of innovative features.
-
-💡 Key Technologies:
-Front-End:
-
-React 18:- user interface <Br/>
-
-React Router:  client-side routing  <Br/>
-
-Redux: Employing Redux for state management, ensuring centralized data handling and seamless interactions between components.<Br/>
-
-Tailwind CSS: Leveraging the power of Tailwind CSS for streamlined and responsive UI design, enabling rapid development and customization. <Br/>
-
-Material-UI: Integrating Material-UI components to enhance the visual appeal and usability of the website. <Br/>
-
-Back-End:
-
-Node.js: Utilizing Node.js as the server-side runtime environment to build scalable and efficient backend services. <Br/>
-
-Express.js: Harnessing the power of Express.js, a fast and minimalist web application framework, to handle routing and middleware. <Br/>
-
-JWT (JSON Web Tokens): Implementing JWT-based authentication for secure and stateless user sessions. <Br/>
-
-MongoDB: Leveraging MongoDB, a NoSQL database, for efficient data storage and retrieval, enabling seamless scalability. <Br/>
-
-Real-time Communication: Utilizing Socket.io to enable real-time communication between buyers, sellers, and the application server. <Br/>
-
-Yarn: Employing Yarn as the package manager to manage project dependencies efficiently. <Br/>
-
-Image Upload with Multer: Integrating Multer middleware to handle image uploads, ensuring seamless storage and retrieval of product images. <Br/>
-
-Email Communication with Nodemailer: Implementing Nodemailer to facilitate email communication, including email verification and notifications. <Br/>
-
-💡 Key Features:
-1️⃣ User Authentication Pages 🚪
-
-User Signup: Enable users to create accounts, complete with email verification and the option to upload a profile image. <Br/>
-
-User Login: Secure login functionality to protect user accounts.
-
-2️⃣ Home Page 🏠
-
-View Seller Products: Showcase all product uploads by sellers, allowing users to browse and explore various offerings. <Br/>
-
-Category Filters: Implement filters to help users narrow down their search by selecting specific product categories. <Br/>
-
-Best-Selling Products: Highlight popular products based on the number of units sold, aiding users in making informed decisions. <Br/>
-
-Events Section: Display all upcoming events, fostering engagement and excitement among users.<Br/>
-
-Frequently Asked Questions (FAQ): Provide a dedicated section to address common user queries. <Br/>
-
-3️⃣ Filters for Sorting Posts 🗂️
-
-Sort by Category: Enable users to filter posts by different categories, such as clothes, shoes, gifts, and more.
-
-4️⃣ User Search Bar 🔍
-
-Search Functionality: Implement a robust search feature, allowing users to search for specific products or click on user profiles to view their offerings.
-
-5️⃣ Wishlist and Cart Management ❤️🛒
-
-Wishlist: Enable users to add products to their wishlist, saving them for future reference. <Br/>
-
-Add to Cart: Provide a seamless shopping experience by allowing users to add products to their cart for purchase. <Br/>
-
-Checkout and Payment: Implement a secure payment system, supporting PayPal, Stripe, and Cash on Delivery (COD) options. <Br/>
-
-Apply Coupon Code: Allow users to apply coupon codes for discounts during the checkout process. <Br/>
-
-6️⃣ Product Explore Page 🔍
-
-Detailed Product Information: Display product details, including original and discounted prices, descriptions, seller information, and related products. <Br/>
-
-Seller Interaction: Facilitate direct communication between users and sellers through chat functionality. <Br/>
-
-Reviews and Ratings: Showcase reviews and ratings from other users to help inform purchasing decisions. <Br/>
-
-7️⃣ User Profile Page 👤
-
-Profile Editing: Allow users to edit their profile details, including profile photos, names, email addresses, and phone numbers. <Br/>
-
-Order History: Provide users with an overview of all their previous orders, allowing them to track deliveries and request refunds if necessary. <Br/>
-
-Inbox and Chat: Enable users to communicate with sellers, fostering a seamless exchange of information. <Br/>
-
-Address Management: Allow users to store multiple addresses for efficient checkout, including default, home, and office options. <Br/>
-
-8️⃣ Seller Dashboard 👨🏻‍🔧
-
-Product and Order Management: Provide sellers with an overview of their products and the latest orders, along with the ability to update delivery statuses. <Br/>
-
-Event Creation: Allow sellers to create and manage events, including details such as event name, description, category, dates, and images. <Br/>
-
-Shop Settings: This enables sellers to update their shop information, including images, addresses, phone numbers, and descriptions. <Br/>
-
-Inbox and Communication: Facilitate communication between sellers and users, ensuring a smooth exchange of information. <Br/>
-
-9️⃣ Admin Dashboard 👑
-
-Admin Authentication: Implement secure login functionality for admins. <Br/>
-
-Overview and Analytics: Provide admins with an overview of total earnings, all sellers, all orders, and the latest orders. <Br/>
-
-Seller and User Management: Enable admins to manage sellers and users, including the ability to delete accounts if necessary. <Br/>
-
-Product and Event Management: Allow admins to view all products and events in the database, facilitating efficient management. <Br/>
-
-Withdrawal Management: Provide admins with the ability to verify seller withdrawal requests, update balances, and send email notifications. <Br/>
-
-Image Management: Enable admins to delete images, ensuring data integrity and storage optimization. <Br/>
-
-🚀 With the power of these cutting-edge technologies, the MERN Marketplace delivers a robust and feature-rich multi-vendor website. It ensures a seamless user experience, efficient data management, real-time communication, and secure transactions. Join me in revolutionizing the e-commerce experience by connecting buyers and sellers in a dynamic and user-friendly environment.
-
-Feel free to reach out to me for more information or to explore collaboration opportunities.
-
-#MERNMarketplace #Ecommerce #React #NodeJS #ExpressJS #MongoDB #SocketIO #TailwindCSS #MaterialUI #Innovation #OnlineShopping #RevolutionizingRetail
-
-#### _**IMPORTANT NOTE**_ - 
-This project does not have a mongoDB connection setup. Set up the connection based on the environments below.
-- local development: create a config folder (make sure to name it .env) in the config folder, which exports your db.uri connection.
--  (make new folder `uploads`) in the backend.
-
-
-## File structure
-#### `client` - Holds the client application
-- #### `public` - This holds all of our static files
-- #### `src`
-    - #### `assets` - This folder holds assets such as images, docs, and fonts
-    - #### `components` - This folder holds all of the different components that will make up our views
-      - Admin
-      - cart
-      - Checkout
-      - Events
-      - layout
-      - Logout
-      - Payment
-      - Products
-      - Profile
-      - Route
-      - Shop
-      - Signup
-      - Wishlist
-     - #### `pages` - This folder holds All pages Admin, shop, user
-       - Shop
-     - #### `redux` - This folder holds all states of the Web app
-       - action
-       - reducer
-     - #### `static` - This folder holds Static file like logo categorie
-    - #### `App.js` - This is what renders all of our browser routes and different views
-    - #### `index.js` - This is what renders the react app by rendering App.js, should not change
-- #### `package.json` - Defines npm behaviors and packages for the client
-#### `server` - Holds the server application
-- #### `config` - This holds our configuration files, like mongoDB uri
-- #### `controller` - These hold all of the callback functions that each route will call
-- #### `db` - These hold all of Data Base Connection
-- #### `middleware` - These hold all error handle
-- #### `models` - This holds all of our data models
-- #### `uploads` - Store all image in hear
-- #### `utils` - This holds all of our HTTP to URL. jwtToken and sand mail, Token gentrare
-- #### `mlter.js` - Sand mail login
-- #### `server.js` - Defines npm behaviors and packages for the client
-- #### `package.json` - Defines npm behaviors like the scripts defined in the next section of the README
-#### `socket` - Socket.io is use to chaing feacher
-  - .env
-  - index.js
-  - package.json
-#### `.gitignore` - Tells git which files to ignore
-#### `README` - This file!
-
----
-
-💻 How to run the app locally! 🏃
-
-### STAP-1
-`git clone https://github.com/pattjoshi/Multi_vondor_E_shop.git`
-
-### STAP-2
-- `cd frontend`
-- `yarn install`
-- `yarn start`
-
-### STAP-3
-- `cd backend`
-- `yarn install`
-- create folder `uploads`
-- create `confilg` folder and a `.env` file
-- use your Cradincial in.env file
-
-```
-PORT = 8000
-DB_URL = ""
-JWT_SECRET_KEY = ""
-JWT_EXPIRES = 7d
-ACTIVATION_SECRET = 
-SMPT_HOST = 'smtp.gmail.com'
-SMPT_PORT = 465
-SMPT_PASSWORD = 
-SMPT_MAIL =
-STRIPE_API_KEY = 
-STRIPE_SECRET_KEY = 
-```
-- `yarn start`
-
-### STAP-4
-
-- `cd socket`
-- `yarn install`
-- create a `.env` file
-```
-PORT = 4000
-```
-- `yarn start`
-
-
-## YouTub :- [I Learn from this ](https://www.youtube.com/watch?v=XxnUSZOgMLY&list=PLyah27R0n8V4Kcao94Qlt-xJ0bHxZfBjk "click to open")
-
-🙏 If you find this repo helpful then don't forget to give a star ❇️ to this repository. :)
-
-<p align="center"><a href="https://github.com/nastyox/Rando.js#nastyox"><img src="http://randojs.com/images/barsSmallTransparentBackground.gif" alt="Animated footer bars" width="100%"/></a></p>
-<br/>
-<p align="center"><a href="https://github.com/pattjoshi/Multi_vondor_E_shop#"><img src="http://randojs.com/images/backToTopButtonTransparentBackground.png" alt="Back to top" height="29"/></a></p>
-
-
-@copyright by Om Pattjoshi 2023
+©2024 BookCon. All rights reserved.
