@@ -47,7 +47,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - All Event's 
   - FAQ 
 - Filters for Sorting Posts 
-  - Sort posts by Clothes, Shows, gifts, etc...
+  - Sort posts by Genre
 - User Search Bar 
   - Search for product 
   - Click on a user to go to the Product details page 
@@ -102,14 +102,14 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 - All Orders 
    - Seller Update Product Delivery status 
   - Create Products  
-     - name*
+     - Name*
      - Description *
      - Category * 
   - All product 
      - Seller can delete Product 
     - View all Products 
  - Create an Event  
-    - name* 
+   - Name* 
    - Description *
    - Category *  
    - Tags
@@ -130,11 +130,11 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 - Shop Inbox 
     - All Messages 
     - Sand Image to user 
-    - Show Activ function 
+    - Show Active function 
 - Discount Codes 
   - Create coupon code 
   - Delete coupon code 
-  - apply all Products of the shop  
+  - Apply all Products of the shop  
   - Can apply the specific product 
 - Refunds 
   - Seller can update the Status of the Product 
@@ -160,7 +160,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - All Products in DB. 
   - All Events of Seller 
   - verify  Seller Withdraw request and Sand mail to update's 
-  - if Delete images it also deletes from the local devise
+  - If Delete images it also deletes from the local devise
 
 ## File structure
 #### `frontend` - Holds the client application
