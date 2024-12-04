@@ -3,11 +3,11 @@
 
 ## Group 47 - BookCon
  -  **GROUP MEMBERS**
-      Aditya Pande
-      Parth Chandel
-      Sathyam A
-      Sravya Sri
-      Amodini AP
+    - Aditya Pande
+    - Parth Chandel
+    - Sathyam A
+    - Sravya Sri
+    - Amodini AP
 
 
 ## 🌟BookCon🌟
