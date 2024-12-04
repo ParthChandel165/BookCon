@@ -139,7 +139,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 - Refunds 
   - Seller can update the Status of the Product 
 - Settings 
-  - update Images, Shop Address, Shop Phone Number, Shop Zip Code ⛓
+  - update Images, Shop Address, Shop Phone Number, Shop Zip Code 
   - Add Shop description 
 - Shop Desboard 
    - Shop Products 
