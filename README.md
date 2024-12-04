@@ -100,14 +100,14 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 - All Orders 
    - Seller Update Product Delivery status 
   - Create Products  
-     - name*
+     - Name*
      - Description *
      - Category * 
   - All product 
      - Seller can delete Products 
     - View all Products 
  - Create an Event  
-    - name* 
+   - Name* 
    - Description *
    - Category *  
    - Tags
