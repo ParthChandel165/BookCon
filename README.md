@@ -1,6 +1,6 @@
 <div align="center" style="background-color: white;">
     <img width="226" alt="BookCon Logo" src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png">
-</div>
+
 
 ## 🌟BookCon🌟
 
