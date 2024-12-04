@@ -53,7 +53,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
   - Click on a user to go to the Product details page 
 - wish list 
   - store in cart 
-- Add to cart 🛒
+- Add to cart 
   - Check out for payment 
     - we have 2 payment systems,**Card**,**Cash of Delivery (COD)**
 - Apply Coupon Code for Discount 
