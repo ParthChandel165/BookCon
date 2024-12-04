@@ -35,13 +35,13 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 ##  Features
 
 - User Authentication Pages 
-  - User Signup 📝
+  - User Signup 
     - email verification
     - upload a Profile image 
   - User Login 
 - Home Page 
   - View all product uploads by seller 
-  - filter with the category 📊
+  - filter with the category 
   - Best-selling product (Sort by Sold_out data) 
   - All Product 
   - All Event's 
