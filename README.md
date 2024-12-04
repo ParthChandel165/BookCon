@@ -218,7 +218,7 @@ Buyers can easily browse or search for books, add them to their shopping carts, 
 💻 How to run the app locally! 🏃
 
 ### STEP-1
-`git clone https://github.com/pattjoshi/Multi_vondor_E_shop.git`
+` cd` into the root of the project 
 
 ### STEP-2
 - `cd frontend`
