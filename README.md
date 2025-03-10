@@ -2,7 +2,7 @@
     <img width="226" alt="BookCon Logo" src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png">
 
 ## Group 47 - BookCon
- - Group Members
+ -  **GROUP MEMBERS**
     - Aditya Pande
     - Parth Chandel
     - Sathyam A
