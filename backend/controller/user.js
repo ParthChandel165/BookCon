@@ -11,6 +11,7 @@ const sendToken = require("../utils/jwtToken");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 const router = express.Router();
+const validator = require('validator');
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {

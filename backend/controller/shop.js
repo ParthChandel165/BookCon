@@ -11,11 +11,24 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 
 const sendShopToken = require("../utils/shopToken");
+const validator = require("validator");
+
 
 // create shop
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email, phoneNumber } = req.body;
+
+    // Email validation
+    if (!validator.isEmail(email)) {
+      return next(new ErrorHandler("Invalid email format", 400));
+    }
+
+    // Phone number validation (checks if it's exactly 10 digits)
+    if (!/^\d{10}$/.test(phoneNumber)) {
+      return next(new ErrorHandler("Phone number must be exactly 10 digits", 400));
+    }
+
     const sellerEmail = await Shop.findOne({ email });
 
     if (sellerEmail) {
@@ -39,7 +52,7 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
       password: req.body.password,
       avatar: fileUrl,
       address: req.body.address,
-      phoneNumber: req.body.phoneNumber,
+      phoneNumber: phoneNumber,
       zipCode: req.body.zipCode,
     };
 
@@ -55,7 +68,7 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
       });
       res.status(201).json({
         success: true,
-        message: `please check your email:- ${seller.email} to activate your shop!`,
+        message: `Please check your email: ${seller.email} to activate your shop!`,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -120,14 +133,19 @@ router.post(
     try {
       const { email, password } = req.body;
 
+      // Email validation
+      if (!validator.isEmail(email)) {
+        return next(new ErrorHandler("Invalid email format", 400));
+      }
+
       if (!email || !password) {
-        return next(new ErrorHandler("Please provide the all fields!", 400));
+        return next(new ErrorHandler("Please provide all fields!", 400));
       }
 
       const user = await Shop.findOne({ email }).select("+password");
 
       if (!user) {
-        return next(new ErrorHandler("User doesn't exists!", 400));
+        return next(new ErrorHandler("User doesn't exist!", 400));
       }
 
       const isPasswordValid = await user.comparePassword(password);
