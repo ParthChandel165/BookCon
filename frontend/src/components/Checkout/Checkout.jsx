@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
-
+import { useCreateRoom as usePayment } from "../../hooks/usePayment";
 const Checkout = () => {
     const { user } = useSelector((state) => state.user);
     const { cart } = useSelector((state) => state.cart);
@@ -21,7 +21,7 @@ const Checkout = () => {
     const [couponCodeData, setCouponCodeData] = useState(null);
     const [discountPrice, setDiscountPrice] = useState(null);
     const navigate = useNavigate();
-
+    const paymenthandler = usePayment();
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -50,7 +50,7 @@ const Checkout = () => {
 
             // update local storage with the updated orders array
             localStorage.setItem("latestOrder", JSON.stringify(orderData));
-            navigate("/payment");
+            paymenthandler();
         }
     };
 

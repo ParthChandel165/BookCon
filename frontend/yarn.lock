@@ -8171,6 +8171,11 @@ react-lottie@^1.2.3:
     babel-runtime "^6.26.0"
     lottie-web "^5.1.3"
 
+react-razorpay@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/react-razorpay/-/react-razorpay-3.0.1.tgz"
+  integrity sha512-43P6VB20quinlUDN3dUdg0XlMtoClzfvhgpPWnGrLwLE6Pr570fXdA4kC+92Wqof48A/x96TXRpLnrQ/J1eXyw==
+
 react-redux@^8.0.5:
   version "8.0.7"
   resolved "https://registry.npmjs.org/react-redux/-/react-redux-8.0.7.tgz"

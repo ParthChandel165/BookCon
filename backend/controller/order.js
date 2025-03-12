@@ -13,7 +13,7 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { cart, shippingAddress, user, totalPrice, paymentInfo } = req.body;
-
+      
       //   group cart items by shopId
       const shopItemsMap = new Map();
 
@@ -44,6 +44,7 @@ router.post(
         orders,
       });
     } catch (error) {
+      console.log(error);
       return next(new ErrorHandler(error.message, 500));
     }
   })
