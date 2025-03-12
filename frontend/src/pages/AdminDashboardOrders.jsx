@@ -14,11 +14,10 @@ const AdminDashboardOrders = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfAdmin());
-  }, []);
+  }, [dispatch]);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
-
     {
       field: "status",
       headerName: "Status",
@@ -37,7 +36,6 @@ const AdminDashboardOrders = () => {
       minWidth: 130,
       flex: 0.7,
     },
-
     {
       field: "total",
       headerName: "Total",
@@ -54,9 +52,14 @@ const AdminDashboardOrders = () => {
     },
   ];
 
+  // Sort the orders by createdAt in descending order (latest first)
+  const sortedOrders = adminOrders
+    ? [...adminOrders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    : [];
+
   const row = [];
-  adminOrders &&
-    adminOrders.forEach((item) => {
+  sortedOrders &&
+    sortedOrders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
@@ -65,8 +68,9 @@ const AdminDashboardOrders = () => {
         createdAt: item?.createdAt.slice(0, 10),
       });
     });
+
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <AdminHeader />
       <div className="w-full flex">
         <div className="flex items-start justify-between w-full">
@@ -75,13 +79,28 @@ const AdminDashboardOrders = () => {
           </div>
 
           <div className="w-full min-h-[45vh] pt-5 rounded flex justify-center">
-            <div className="w-[97%] flex justify-center">
+            <div className="w-[97%] bg-white p-6 rounded-2xl shadow-lg">
+              {/* Heading for All Orders Page */}
+              <h2 className="text-2xl font-semibold mb-6">All Orders</h2>
+
+              {/* DataGrid Table */}
               <DataGrid
                 rows={row}
                 columns={columns}
                 pageSize={4}
                 disableSelectionOnClick
                 autoHeight
+                sx={{
+                  '& .MuiDataGrid-cell': {
+                    outline: 'none', // Ensure no outline around cells
+                  },
+                  '& .MuiDataGrid-columnHeaders': {
+                    outline: 'none', // Ensure no outline around headers
+                  },
+                  '& .MuiDataGrid-root': {
+                    border: 'none', // Remove the border around the grid
+                  },
+                }}
               />
             </div>
           </div>

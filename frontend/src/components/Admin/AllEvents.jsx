@@ -8,6 +8,7 @@ import { server } from "../../server";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
+
   useEffect(() => {
     axios
       .get(`${server}/event/admin-all-events`, { withCredentials: true })
@@ -37,7 +38,6 @@ const AllEvents = () => {
       minWidth: 80,
       flex: 0.5,
     },
-
     {
       field: "sold",
       headerName: "Sold out",
@@ -49,14 +49,14 @@ const AllEvents = () => {
       field: "Preview",
       flex: 0.8,
       minWidth: 100,
-      headerName: "",
+      headerName: "Preview",
       type: "number",
       sortable: false,
       renderCell: (params) => {
         return (
           <>
             <Link to={`/product/${params.id}?isEvent=true`}>
-              <Button>
+              <Button variant="outlined" size="small">
                 <AiOutlineEye size={20} />
               </Button>
             </Link>
@@ -80,14 +80,31 @@ const AllEvents = () => {
     });
 
   return (
-    <div className="w-full mx-8 pt-1 mt-10 bg-white">
-      <DataGrid
-        rows={row}
-        columns={columns}
-        pageSize={10}
-        disableSelectionOnClick
-        autoHeight
-      />
+    <div className="w-full mx-8 pt-1 mt-10">
+      {/* Heading for All Events page */}
+
+      {/* DataGrid Table inside a rounded, padded container */}
+      <div className="bg-white p-6 rounded-2xl">
+      <h5 className="text-xl font-semibold mb-6">All Events</h5>
+        <DataGrid
+          rows={row}
+          columns={columns}
+          pageSize={10}
+          disableSelectionOnClick
+          autoHeight
+          sx={{
+            '& .MuiDataGrid-cell': {
+              outline: 'none', // Ensure no outline around cells
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              outline: 'none', // Ensure no outline around headers
+            },
+            '& .MuiDataGrid-root': {
+              border: 'none', // Remove the border around the grid
+            }
+          }}
+        />
+      </div>
     </div>
   );
 };
