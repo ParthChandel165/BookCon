@@ -70,7 +70,7 @@ const Signup = () => {
                 <AiOutlineUser className="h-8 w-8 text-amber-700" />
               </div>
             </div>
-            <h2 className="mt-6 text-center text-3xl font-bold text-white">Join BookMarket</h2>
+            <h2 className="mt-6 text-center text-3xl font-bold text-white">Join BookCon</h2>
             <p className="mt-2 text-center text-amber-200">Create your account and start your reading journey</p>
           </div>
 
