@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
+const helmet = require("helmet");
 
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
@@ -55,6 +56,8 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.use(helmet());
 
 // routes
 const user = require("./controller/user");
