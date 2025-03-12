@@ -101,7 +101,7 @@ const ProductCard = ({ data, isEvent }) => {
                         </div>
 
                         <span className="font-[400] text-[17px] text-[#68d284]">
-                            {data?.sold_out} sold
+                        {data?.sold_out === 0 ? "Unsold" : "Sold"}
                         </span>
                     </div>
                 </Link>
