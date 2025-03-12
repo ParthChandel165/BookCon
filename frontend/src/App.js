@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Store from "./redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ResetPassword from "./pages/ResetPassword";
 import {
   LoginPage,
   SignupPage,
@@ -111,6 +112,7 @@ const App = () => {
           element={<SellerActivationPage />}
         />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/best-selling" element={<BestSellingPage />} />

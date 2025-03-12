@@ -9,6 +9,8 @@ const sendMail = require("../utils/sendMail");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
+const crypto = require("crypto"); // For generating secure token
+const bcrypt = require("bcryptjs"); // For hashing password
 
 const router = express.Router();
 const validator = require('validator');
@@ -134,6 +136,100 @@ router.post(
         );
       }
       sendToken(user, 201, res);
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+//Forgot-password
+router.post(
+  "/forgot-password",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      // Generate reset token
+      const resetToken = crypto.randomBytes(20).toString("hex");
+
+      // Set token and expiration in database
+      user.resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex");
+
+      user.resetPasswordTime = Date.now() + 10 * 60 * 1000; // 10 min expiry
+
+      await user.save({ validateBeforeSave: false });
+
+      // Reset URL
+      const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+
+      // Send email
+      try {
+        await sendMail({
+          email: user.email,
+          subject: "Password Reset Request",
+          message: `Hello ${user.name},\n\nClick the link below to reset your password:\n\n${resetUrl}\n\nThis link will expire in 10 minutes.\n\nIf you didn't request this, please ignore this email.`,
+        });
+
+        res.status(200).json({
+          success: true,
+          message: `Password reset email sent to ${user.email}`,
+        });
+      } catch (err) {
+        user.resetPasswordToken = undefined;
+        user.resetPasswordTime = undefined;
+        await user.save({ validateBeforeSave: false });
+
+        return next(new ErrorHandler("Email could not be sent", 500));
+      }
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+router.put(
+  "/reset-password/:token",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { password } = req.body;
+
+      // Hash the token to match the one in DB
+      const resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
+
+      // Find user by token
+      const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordTime: { $gt: Date.now() }, // Ensure token is valid
+      });
+
+      if (!user) {
+        return next(new ErrorHandler("Invalid or expired token", 400));
+      }
+
+      // Hash new password before saving
+      user.password = await bcrypt.hash(password, 10);
+      
+      // Clear reset password fields
+      user.resetPasswordToken = undefined;
+      user.resetPasswordTime = undefined;
+
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Password reset successful!",
+      });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
@@ -426,5 +522,6 @@ router.delete(
     }
   })
 );
+
 
 module.exports = router;
