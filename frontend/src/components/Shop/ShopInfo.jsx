@@ -6,6 +6,7 @@ import { getAllProductsShop } from "../../redux/actions/product";
 import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
+import { toast } from "react-toastify";
 
 
 
@@ -31,13 +32,18 @@ const ShopInfo = ({ isOwner }) => {
     }, [])
 
 
-    const logoutHandler = async () => {
-        axios.get(`${server}/shop/logout`, {
-            withCredentials: true,
-        });
-        window.location.reload();
-    };
-
+    const logoutHandler = () => {
+        axios
+            .get(`${server}/shop/logout`, { withCredentials: true })
+            .then((res) => {
+                toast.success(res.data.message);
+                navigate("/login");
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error.response.data.message);
+            });
+        };
 
     const totalReviewsLength =
         products &&
