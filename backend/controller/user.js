@@ -382,10 +382,6 @@ router.put(
             user.resetPasswordToken = undefined;
             user.resetPasswordTime = undefined;
 
-            // Clear reset password fields
-            user.resetPasswordToken = undefined;
-            user.resetPasswordTime = undefined;
-
             await user.save();
 
             res.status(200).json({
