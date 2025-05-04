@@ -257,24 +257,32 @@ router.get(
   })
 );
 
-// log out user
 router.get(
   "/logout",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      res.cookie("token", null, {
-        expires: new Date(Date.now()),
-        httpOnly: true,
-      });
-      res.status(201).json({
-        success: true,
-        message: "Log out successful!",
+      // If you use express-session, destroy the session:
+      req.session.destroy(() => {
+        // Clear cookies as well
+        res.clearCookie("connect.sid", { path: "/" });
+
+        // Clear auth token if you set one
+        res.cookie("token", null, {
+          expires: new Date(Date.now()),
+          httpOnly: true,
+        });
+
+        res.status(200).json({
+          success: true,
+          message: "Logged out successfully!",
+        });
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
   })
 );
+
 
 // update user info
 router.put(
