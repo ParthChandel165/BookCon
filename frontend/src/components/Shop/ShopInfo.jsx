@@ -33,11 +33,15 @@ const ShopInfo = ({ isOwner }) => {
 
 
     const logoutHandler = async () => {
-        axios.get(`${server}/shop/logout`, {
-            withCredentials: true,
-        });
-        navigate("/login");
-        window.location.reload();
+        try {
+            await axios.get(`${server}/shop/logout`, {
+                withCredentials: true,
+            });
+            navigate("/login");
+            window.location.reload();
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
     };
 
     const totalReviewsLength =
