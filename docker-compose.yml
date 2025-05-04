@@ -1,0 +1,25 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: DockerFile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: DockerFile
+    ports:
+      - "8000:8000" 
+    depends_on:
+      - sockets 
+
+  sockets:
+    build:
+      context: ./socket
+      dockerfile: DockerFile
+    ports:
+      - "4000:4000"
