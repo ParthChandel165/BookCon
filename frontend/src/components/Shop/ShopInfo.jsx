@@ -32,18 +32,13 @@ const ShopInfo = ({ isOwner }) => {
     }, [])
 
 
-    const logoutHandler = () => {
-        axios
-            .get(`${server}/shop/logout`, { withCredentials: true })
-            .then((res) => {
-                toast.success(res.data.message);
-                navigate("/login");
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.log(error.response.data.message);
-            });
-        };
+    const logoutHandler = async () => {
+        axios.get(`${server}/shop/logout`, {
+            withCredentials: true,
+        });
+        navigate("/login");
+        window.location.reload();
+    };
 
     const totalReviewsLength =
         products &&
