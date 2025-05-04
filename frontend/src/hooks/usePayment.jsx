@@ -12,7 +12,7 @@ const useCreateRoom = () => {
     const roomHandler = async () => {
         const orderData = JSON.parse(localStorage.getItem("latestOrder"));
         try {
-            const response = await axios.post('http://localhost:8000/api/v2/payment/create-payment', {
+            const response = await axios.post('https://bookcon-backend.onrender.com/api/v2/payment/create-payment', {
                 amount: orderData.totalPrice
             }, {
                 withCredentials: true,

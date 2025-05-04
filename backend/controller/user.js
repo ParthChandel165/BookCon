@@ -14,6 +14,8 @@ const bcrypt = require("bcryptjs"); // For hashing password
 
 const router = express.Router();
 const validator = require("validator");
+const dotenv = require("dotenv");
+dotenv.config();
 
 /**
  * @swagger
@@ -146,7 +148,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
         const activationToken = createActivationToken(user);
 
-        const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+        const activationUrl = `https://bookcon-amber.vercel.app/activation/${activationToken}`;
 
         // send email to user
         try {
@@ -323,7 +325,7 @@ router.post(
             await user.save({ validateBeforeSave: false });
 
             // Reset URL
-            const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+            const resetUrl = `https://bookcon-amber.vercel.app//reset-password/${resetToken}`;
 
             // Send email
             try {
@@ -373,8 +375,14 @@ router.put(
             }
 
             // Hash new password before saving
+<<<<<<< HEAD
             user.password = await bcrypt.hash(password, 10);
 
+=======
+            user.password = password;
+            console.log(password);
+            
+>>>>>>> 89d94cc496160cf7049cef31cfe46980ca387955
             // Clear reset password fields
             user.resetPasswordToken = undefined;
             user.resetPasswordTime = undefined;
@@ -417,16 +425,18 @@ router.get(
     "/logout",
     catchAsyncErrors(async (req, res, next) => {
         try {
-            res.cookie("token", null, {
-                expires: new Date(Date.now()),
-                httpOnly: true,
-            });
-            res.status(201).json({
-                success: true,
-                message: "Log out successful!",
-            });
+        res.cookie("token", "", {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+        });
+        res.status(201).json({
+            success: true,
+            message: "Log out successful!",
+        });
         } catch (error) {
-            return next(new ErrorHandler(error.message, 500));
+        return next(new ErrorHandler(error.message, 500));
         }
     })
 );
