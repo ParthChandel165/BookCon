@@ -325,7 +325,7 @@ router.post(
             await user.save({ validateBeforeSave: false });
 
             // Reset URL
-            const resetUrl = `https://bookcon-amber.vercel.app//reset-password/${resetToken}`;
+            const resetUrl = `https://bookcon-amber.vercel.app/reset-password/${resetToken}`;
 
             // Send email
             try {
