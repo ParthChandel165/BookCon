@@ -6,6 +6,66 @@ const { upload } = require("../multer");
 const router = express.Router();
 const path = require("path");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Message
+ *   description: User-seller messaging
+ */
+
+/**
+ * @swagger
+ * /message/create-new-message:
+ *   post:
+ *     summary: Create a new message
+ *     tags: [Message]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - conversationId
+ *               - sender
+ *               - text
+ *             properties:
+ *               conversationId:
+ *                 type: string
+ *                 description: ID of conversation
+ *               sender:
+ *                 type: string
+ *                 description: ID of message sender
+ *               text:
+ *                 type: string
+ *                 description: Message content
+ *               images:
+ *                 type: string
+ *                 format: binary
+ *                 description: Optional images with the message
+ *     responses:
+ *       201:
+ *         description: Message sent successfully
+ */
+
+/**
+ * @swagger
+ * /message/get-all-messages/{id}:
+ *   get:
+ *     summary: Get all messages in a conversation
+ *     tags: [Message]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Conversation ID
+ *     responses:
+ *       201:
+ *         description: List of all messages
+ */
+
 // create new message
 router.post(
   "/create-new-message",
