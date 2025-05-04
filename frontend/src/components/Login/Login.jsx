@@ -37,6 +37,10 @@ const Login = () => {
     }
   }
 
+  const navigateToSellerLogin = () => {
+    navigate("/shop-login")
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100 p-4">
       <div className="w-full max-w-md">
@@ -176,6 +180,17 @@ const Login = () => {
                 </button>
               </div>
 
+              {/* Seller Login Button */}
+              <div>
+                <button
+                  type="button"
+                  onClick={navigateToSellerLogin}
+                  className="w-full flex justify-center items-center py-3 px-4 border border-amber-600 rounded-lg shadow-sm text-sm font-medium text-amber-700 bg-white hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200"
+                >
+                  Sign in as a seller
+                </button>
+              </div>
+
               {/* Sign up link */}
               <div className="text-center mt-6">
                 <p className="text-sm text-gray-600">
@@ -246,4 +261,3 @@ const Login = () => {
 }
 
 export default Login
-
