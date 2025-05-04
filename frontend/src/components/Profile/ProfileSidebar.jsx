@@ -22,19 +22,15 @@ const ProfileSidebar = ({ active, setActive }) => {
   const { user } = useSelector((state) => state.user);
 
   const logoutHandler = () => {
-    const navigate = useNavigate();
-  
     axios
       .get(`${server}/user/logout`, { withCredentials: true })
       .then((res) => {
-        toast.success(res.data.message); 
-        localStorage.removeItem("authToken");  
-        sessionStorage.removeItem("authToken");
+        toast.success(res.data.message);
+        window.location.reload(true);
         navigate("/login");
       })
       .catch((error) => {
         console.log(error.response.data.message);
-        toast.error("Error logging out, please try again!"); // Optional error toast
       });
   };
 
