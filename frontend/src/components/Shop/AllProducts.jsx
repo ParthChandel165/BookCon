@@ -2,15 +2,26 @@
 
 import { Button } from "@material-ui/core"
 import { DataGrid } from "@material-ui/data-grid"
+import { makeStyles } from "@material-ui/core/styles"
 import { useEffect, useState } from "react"
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { getAllProductsShop } from "../../redux/actions/product"
-import { deleteProduct } from "../../redux/actions/product"
+import { getAllProductsShop, deleteProduct } from "../../redux/actions/product"
 import Loader from "../Layout/Loader"
 
+// ✅ MUI v4 styles using makeStyles
+const useStyles = makeStyles(() => ({
+  dataGrid: {
+    '& .super-app-theme--header': {
+      backgroundColor: '#f9fafb',
+      fontWeight: 600,
+    },
+  },
+}))
+
 const AllProducts = () => {
+  const classes = useStyles()
   const { products, isLoading } = useSelector((state) => state.products)
   const { seller } = useSelector((state) => state.seller)
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -20,7 +31,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     dispatch(getAllProductsShop(seller._id))
-  }, [dispatch])
+  }, [dispatch, seller._id])
 
   const handleDeleteClick = (id) => {
     setProductToDelete(id)
@@ -88,52 +99,41 @@ const AllProducts = () => {
       flex: 0.5,
       minWidth: 100,
       headerName: "View",
-      type: "number",
       sortable: false,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => {
-        return (
-          <Link to={`/product/${params.id}`}>
-            <Button className="min-w-[30px] p-1 rounded-full bg-blue-50 hover:bg-blue-100">
-              <AiOutlineEye size={18} className="text-blue-600" />
-            </Button>
-          </Link>
-        )
-      },
+      renderCell: (params) => (
+        <Link to={`/product/${params.id}`}>
+          <Button className="min-w-[30px] p-1 rounded-full bg-blue-50 hover:bg-blue-100">
+            <AiOutlineEye size={18} className="text-blue-600" />
+          </Button>
+        </Link>
+      ),
     },
     {
       field: "Delete",
       flex: 0.5,
       minWidth: 100,
       headerName: "Delete",
-      type: "number",
       sortable: false,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => {
-        return (
-          <Button
-            onClick={() => handleDeleteClick(params.id)}
-            className="min-w-[30px] p-1 rounded-full bg-red-50 hover:bg-red-100"
-          >
-            <AiOutlineDelete size={18} className="text-red-600" />
-          </Button>
-        )
-      },
+      renderCell: (params) => (
+        <Button
+          onClick={() => handleDeleteClick(params.id)}
+          className="min-w-[30px] p-1 rounded-full bg-red-50 hover:bg-red-100"
+        >
+          <AiOutlineDelete size={18} className="text-red-600" />
+        </Button>
+      ),
     },
   ]
 
-  const row = []
-
-  products &&
-    products.forEach((item) => {
-      row.push({
-        id: item._id,
-        name: item.name,
-        price: "₹" + item.discountPrice,
-        Stock: item.stock,
-        sold: item.sold_out,
-      })
-    })
+  const rows = products?.map((item) => ({
+    id: item._id,
+    name: item.name,
+    price: "₹" + item.discountPrice,
+    Stock: item.stock,
+    sold: item.sold_out,
+  })) || []
 
   return (
     <>
@@ -144,21 +144,15 @@ const AllProducts = () => {
           <div className="p-4 border-b">
             <h2 className="text-xl font-semibold text-gray-800">All Products</h2>
           </div>
-          <div
-            className="w-full"
-            style={{
-              "& .super-app-theme--header": {
-                backgroundColor: "#f9fafb",
-              },
-            }}
-          >
+          <div className="w-full">
             <DataGrid
-              rows={row}
+              rows={rows}
               columns={columns}
               pageSize={10}
+              rowsPerPageOptions={[5, 10, 25, 50]}
               disableSelectionOnClick
               autoHeight
-              className="custom-data-grid"
+              className={classes.dataGrid}
             />
           </div>
         </div>
@@ -194,4 +188,3 @@ const AllProducts = () => {
 }
 
 export default AllProducts
-

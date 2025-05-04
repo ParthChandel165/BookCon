@@ -2,12 +2,16 @@ const express = require("express");
 const ErrorHandler = require("./middleware/error");
 const connectDatabase = require("./db/Database");
 const app = express();
+const swaggerDocs = require("./swagger/swagger");
 
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const helmet = require("helmet");
+const { connectRedis } = require('./utils/redisClient');
+connectRedis();
+
 
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
@@ -82,6 +86,8 @@ app.use("/api/v2/product", product);
 app.use("/api/v2/event", event);
 app.use("/api/v2/coupon", coupon);
 app.use("/api/v2/payment", payment);
+
+swaggerDocs(app);
 
 // it'for errhendel
 app.use(ErrorHandler);
