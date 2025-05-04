@@ -30,7 +30,7 @@ const ResetPassword = () => {
       setLoading(true);
 
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/reset-password/${token}`,
+        `http://localhost:8000/api/v2/user/reset-password/${token}`,
         { password },
         { headers: { "Content-Type": "application/json" } }
       );

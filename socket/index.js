@@ -10,7 +10,13 @@ require("dotenv").config({
   path: "./.env",
 });
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://bookcon-amber.vercel.app"
+  ],
+  methods: ["GET", "POST"],
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {

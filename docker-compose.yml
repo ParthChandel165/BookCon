@@ -1,13 +1,4 @@
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: DockerFile
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-
   backend:
     build:
       context: ./backend
