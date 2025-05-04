@@ -372,18 +372,13 @@ router.put(
                 return next(new ErrorHandler("Invalid or expired token", 400));
             }
 
-<<<<<<< HEAD
             // Hash new password before saving
-            user.password = await bcrypt.hash(password, 10);
-=======
-      // Hash new password before saving
-      user.password = password;
-      console.log(password);
-      
-      // Clear reset password fields
-      user.resetPasswordToken = undefined;
-      user.resetPasswordTime = undefined;
->>>>>>> f8e1ba4eea690276d7c217e4ea713be467cf6ed1
+            user.password = password;
+            console.log(password);
+            
+            // Clear reset password fields
+            user.resetPasswordToken = undefined;
+            user.resetPasswordTime = undefined;
 
             // Clear reset password fields
             user.resetPasswordToken = undefined;
@@ -424,41 +419,23 @@ router.get(
 
 // log out user
 router.get(
-<<<<<<< HEAD
     "/logout",
     catchAsyncErrors(async (req, res, next) => {
         try {
-            res.cookie("token", null, {
-                expires: new Date(Date.now()),
-                httpOnly: true,
-            });
-            res.status(201).json({
-                success: true,
-                message: "Log out successful!",
-            });
+        res.cookie("token", "", {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+        });
+        res.status(201).json({
+            success: true,
+            message: "Log out successful!",
+        });
         } catch (error) {
-            return next(new ErrorHandler(error.message, 500));
+        return next(new ErrorHandler(error.message, 500));
         }
     })
-=======
-  "/logout",
-  catchAsyncErrors(async (req, res, next) => {
-    try {
-      res.cookie("token", "", {
-        expires: new Date(Date.now()),
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-      });
-      res.status(201).json({
-        success: true,
-        message: "Log out successful!",
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
->>>>>>> f8e1ba4eea690276d7c217e4ea713be467cf6ed1
 );
 
 // update user info
