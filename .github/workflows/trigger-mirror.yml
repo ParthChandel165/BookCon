@@ -1,0 +1,15 @@
+name: Trigger Mirror on Push
+
+on:
+  push:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger mirror repo
+        run: |
+          curl -X POST https://api.github.com/repos/nottpande/bookcon/dispatches \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.MIRROR_PAT }}" \
+            -d '{"event_type":"mirror_trigger"}'

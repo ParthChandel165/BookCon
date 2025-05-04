@@ -39,4 +39,12 @@ export const cartReducer = createReducer(initialState, {
       cart: state.cart.filter((i) => i._id !== action.payload),
     };
   },
+
+  // New clear cart action
+  clearCart: (state) => {
+    return {
+      ...state,
+      cart: [],
+    };
+  },
 });
