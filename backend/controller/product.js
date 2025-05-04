@@ -8,6 +8,7 @@ const Shop = require("../model/shop");
 const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const fs = require("fs");
+const ChartJS = require('chart.js');
 
 // create product
 router.post(
@@ -44,10 +45,29 @@ router.post(
 router.get(
   "/get-all-products-shop/:id",
   catchAsyncErrors(async (req, res, next) => {
-    try {
-      const products = await Product.find({ shopId: req.params.id });
+    const shopId = req.params.id;
 
-      res.status(201).json({
+    try {
+      const products = await Product.find({ shopId });
+
+      res.status(200).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+// get all products
+router.get(
+  "/get-all-products",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find().sort({ createdAt: -1 });
+
+      res.status(200).json({
         success: true,
         products,
       });
@@ -84,26 +104,9 @@ router.delete(
         return next(new ErrorHandler("Product not found with this id!", 500));
       }
 
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         message: "Product Deleted successfully!",
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error, 400));
-    }
-  })
-);
-
-// get all products
-router.get(
-  "/get-all-products",
-  catchAsyncErrors(async (req, res, next) => {
-    try {
-      const products = await Product.find().sort({ createdAt: -1 });
-
-      res.status(201).json({
-        success: true,
-        products,
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
@@ -135,7 +138,9 @@ router.put(
       if (isReviewed) {
         product.reviews.forEach((rev) => {
           if (rev.user._id === req.user._id) {
-            (rev.rating = rating), (rev.comment = comment), (rev.user = user);
+            rev.rating = rating;
+            rev.comment = comment;
+            rev.user = user;
           }
         });
       } else {
@@ -160,7 +165,7 @@ router.put(
 
       res.status(200).json({
         success: true,
-        message: "Reviwed succesfully!",
+        message: "Reviewed successfully!",
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
@@ -178,7 +183,7 @@ router.get(
       const products = await Product.find().sort({
         createdAt: -1,
       });
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         products,
       });
@@ -188,4 +193,59 @@ router.get(
   })
 );
 
+// Route to generate a genre distribution chart
+router.get(
+  "/genre-chart/:id",  // shopId will be passed in the URL
+  catchAsyncErrors(async (req, res, next) => {
+    const shopId = req.params.id;
+
+    try {
+      // Find products for this particular shop
+      const products = await Product.find({ shopId });
+
+      if (!products || products.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No products found for this shop.",
+        });
+      }
+
+      const genreCount = products.reduce((acc, product) => {
+        const genre = product.category; // Assuming 'category' is the genre field
+        if (genre) {
+          acc[genre] = (acc[genre] || 0) + 1;
+        }
+        return acc;
+      }, {});
+
+      if (Object.keys(genreCount).length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No valid genre data found in the products.",
+        });
+      }
+
+      const chartData = {
+        labels: Object.keys(genreCount),
+        datasets: [
+          {
+            label: "Product Genre Distribution",
+            data: Object.values(genreCount),
+            backgroundColor: "rgba(75, 192, 192, 0.6)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      res.status(200).json({
+        success: true,
+        chartData,
+      });
+    } catch (error) {
+      console.error("Error generating genre chart:", error);
+      return next(new ErrorHandler(error.message, 400));
+    }
+  })
+);
 module.exports = router;

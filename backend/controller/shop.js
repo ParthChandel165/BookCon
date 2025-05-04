@@ -9,10 +9,8 @@ const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
-
 const sendShopToken = require("../utils/shopToken");
 const validator = require("validator");
-
 
 // create shop
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
@@ -26,7 +24,9 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
 
     // Phone number validation (checks if it's exactly 10 digits)
     if (!/^\d{10}$/.test(phoneNumber)) {
-      return next(new ErrorHandler("Phone number must be exactly 10 digits", 400));
+      return next(
+        new ErrorHandler("Phone number must be exactly 10 digits", 400)
+      );
     }
 
     const sellerEmail = await Shop.findOne({ email });
@@ -170,9 +170,8 @@ router.get(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const seller = await Shop.findById(req.seller._id);
-
       if (!seller) {
-        return next(new ErrorHandler("User doesn't exists", 400));
+        return next(new ErrorHandler("User doesn't exist", 400));
       }
 
       res.status(200).json({
@@ -210,7 +209,11 @@ router.get(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shop = await Shop.findById(req.params.id);
-      res.status(201).json({
+      if (!shop) {
+        return next(new ErrorHandler("Shop not found", 400));
+      }
+
+      res.status(200).json({
         success: true,
         shop,
       });
@@ -228,9 +231,7 @@ router.put(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const existsUser = await Shop.findById(req.seller._id);
-
       const existAvatarPath = `uploads/${existsUser.avatar}`;
-
       fs.unlinkSync(existAvatarPath);
 
       const fileUrl = path.join(req.file.filename);
@@ -257,7 +258,7 @@ router.put(
     try {
       const { name, description, address, phoneNumber, zipCode } = req.body;
 
-      const shop = await Shop.findOne(req.seller._id);
+      const shop = await Shop.findById(req.seller._id);
 
       if (!shop) {
         return next(new ErrorHandler("User not found", 400));
@@ -301,7 +302,7 @@ router.get(
   })
 );
 
-// delete seller ---admin
+// delete seller --- admin
 router.delete(
   "/delete-seller/:id",
   isAuthenticated,
@@ -350,25 +351,24 @@ router.put(
   })
 );
 
-// delete seller withdraw merthods --- only seller
+// delete seller withdraw methods --- only seller
 router.delete(
-  "/delete-withdraw-method/",
+  "/delete-withdraw-method",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
     try {
       const seller = await Shop.findById(req.seller._id);
 
       if (!seller) {
-        return next(new ErrorHandler("Seller not found with this id", 400));
+        return next(new ErrorHandler("Seller not found", 400));
       }
 
       seller.withdrawMethod = null;
-
       await seller.save();
 
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        seller,
+        message: "Withdraw method deleted successfully!",
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
