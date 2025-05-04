@@ -14,6 +14,8 @@ const bcrypt = require("bcryptjs"); // For hashing password
 
 const router = express.Router();
 const validator = require("validator");
+const dotenv = require("dotenv");
+dotenv.config();
 
 /**
  * @swagger
@@ -146,7 +148,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
         const activationToken = createActivationToken(user);
 
-        const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+        const activationUrl = `https://bookcon-amber.vercel.app/activation/${activationToken}`;
 
         // send email to user
         try {
@@ -323,7 +325,7 @@ router.post(
             await user.save({ validateBeforeSave: false });
 
             // Reset URL
-            const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+            const resetUrl = `https://bookcon-amber.vercel.app//reset-password/${resetToken}`;
 
             // Send email
             try {
