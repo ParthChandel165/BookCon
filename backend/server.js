@@ -10,7 +10,7 @@ const cors = require("cors");
 const path = require("path");
 const helmet = require("helmet");
 const { connectRedis } = require('./utils/redisClient');
-// connectRedis();
+connectRedis();
 
 
 // config
@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000","https://bookcon-amber.vercel.app"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
