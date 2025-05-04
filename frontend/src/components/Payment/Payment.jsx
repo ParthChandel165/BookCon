@@ -9,14 +9,15 @@ import {
     useElements,
 } from "@stripe/react-stripe-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 import { RxCross1 } from "react-icons/rx";
-
+import { clearCart } from "../../redux/actions/cart";
 
 const Payment = () => {
+    const dispatch = useDispatch();
     const [orderData, setOrderData] = useState([]);
     const [open, setOpen] = useState(false);
     const { user } = useSelector((state) => state.user);
@@ -86,12 +87,11 @@ const Payment = () => {
         await axios
             .post(`${server}/order/create-order`, order, config)
             .then((res) => {
+                dispatch(clearCart());
                 setOpen(false);
                 navigate("/order/success");
                 toast.success("Order successful!");
-                localStorage.setItem("cartItems", JSON.stringify([]));
-                localStorage.setItem("latestOrder", JSON.stringify([]));
-                window.location.reload();
+                //window.location.reload();
             });
 
     }
@@ -130,22 +130,24 @@ const Payment = () => {
                 toast.error(result.error.message);
             } else {
                 if (result.paymentIntent.status === "succeeded") {
+                    
                     order.paymentInfo = {
                         id: result.paymentIntent.id,
                         status: result.paymentIntent.status,
                         type: "Credit Card",
                     };
+                    
 
                     await axios
                         .post(`${server}/order/create-order`, order, config)
                         .then((res) => {
+                            dispatch(clearCart());
                             setOpen(false);
                             navigate("/order/success");
                             toast.success("Order successful!");
-                            localStorage.setItem("cartItems", JSON.stringify([]));
-                            localStorage.setItem("latestOrder", JSON.stringify([]));
-                            window.location.reload();
+                            //window.location.reload();
                         });
+                    
                 }
             }
         } catch (error) {
@@ -171,12 +173,11 @@ const Payment = () => {
         await axios
             .post(`${server}/order/create-order`, order, config)
             .then((res) => {
+                dispatch(clearCart());
                 setOpen(false);
                 navigate("/order/success");
                 toast.success("Order successful!");
-                localStorage.setItem("cartItems", JSON.stringify([]));
-                localStorage.setItem("latestOrder", JSON.stringify([]));
-                window.location.reload();
+                //window.location.reload();
             });
     }
 

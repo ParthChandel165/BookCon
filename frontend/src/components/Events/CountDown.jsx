@@ -6,27 +6,37 @@ const CountDown = ({ data }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
+
+    // If countdown is over, delete event
     if (
       typeof timeLeft.days === "undefined" &&
       typeof timeLeft.hours === "undefined" &&
       typeof timeLeft.minutes === "undefined" &&
       typeof timeLeft.seconds === "undefined"
     ) {
-      axios.delete(`${server}/event/delete-shop-event/${data._id}`);
+      const token = localStorage.getItem("token"); // Get token from local storage
+
+      axios
+        .delete(`${server}/event/delete-shop-event/${data._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add Authorization header
+          },
+        })
+        .then(() => {
+          console.log("Event deleted successfully");
+        })
+        .catch((err) => {
+          console.error("Delete failed:", err);
+        });
     }
-    return () => clearInterval(timeLeft);
-  });
+
+    return () => clearTimeout(timer); // Correctly clean up the timeout
+  }, [timeLeft]); // Run effect whenever timeLeft changes
 
   function calculateTimeLeft() {
-    // today date + 3 days
-    const evDate = new Date(
-      new Date().getTime() + 3 * 24 * 60 * 60 * 1000
-    ).toLocaleDateString();
-
-    // const difference = +new Date(evDate) - +new Date();
     const difference = +new Date(data.Finish_Date) - +new Date();
     let timeLeft = {};
 
@@ -42,12 +52,10 @@ const CountDown = ({ data }) => {
   }
 
   const timerComponents = Object.keys(timeLeft).map((interval) => {
-    if (!timeLeft[interval]) {
-      return null;
-    }
+    if (!timeLeft[interval]) return null;
 
     return (
-      <span className="text-[25px] text-[#475ad2]">
+      <span key={interval} className="text-[25px] text-[#475ad2]">
         {timeLeft[interval]} {interval}{" "}
       </span>
     );
