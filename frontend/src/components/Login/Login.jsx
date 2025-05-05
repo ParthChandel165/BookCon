@@ -42,7 +42,6 @@ const Login = () => {
       await axios.get(`${server}/user/logout`, {
         withCredentials: true,
       });
-      toast.info("Buyer session cleared. Redirecting to seller login...");
     } catch (e) {
       console.warn("No buyer session to clear");
     }
