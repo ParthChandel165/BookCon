@@ -8,7 +8,7 @@ import {
     CategoryScale,
     LinearScale,
     Title,
-    PointElement, // Add PointElement for complete chart rendering
+    PointElement,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
@@ -16,26 +16,23 @@ ChartJS.register(
     LineElement,
     CategoryScale,
     LinearScale,
-    PointElement, // Register PointElement
+    PointElement,
     Title,
     Tooltip,
     Legend
 );
 
 const MonthlyTrendChart = () => {
-    const [monthlyData, setMonthlyData] = useState(null);
+    const [trendData, setTrendData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Make sure to include authentication token if needed
         const requestOptions = {
             method: 'GET',
-            credentials: 'include', // This includes cookies in the request
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                // Add any auth headers if you're using token-based auth
-                // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
             }
         };
 
@@ -47,36 +44,47 @@ const MonthlyTrendChart = () => {
                 return response.json();
             })
             .then((data) => {
-                if (data.success && data.monthlyTrend) {
-                    setMonthlyData(data.monthlyTrend);
+                if (data?.success && Array.isArray(data?.hourlyTrend)) {
+                    // Changed from monthlyTrend to hourlyTrend to match backend response
+                    setTrendData(data.hourlyTrend);
                 } else {
-                    throw new Error("Invalid data format");
+                    console.error("Unexpected response format:", data);
+                    throw new Error("Invalid data format received from server");
                 }
                 setLoading(false);
             })
             .catch((err) => {
-                console.error("Error fetching monthly trend data:", err);
-                setError(`Failed to fetch monthly trend data: ${err.message}`);
+                console.error("Error fetching trend data:", err);
+                setError(`Failed to fetch trend data: ${err.message}`);
                 setLoading(false);
             });
     }, []);
 
     if (loading) {
-        return <div className="text-center py-4">Loading monthly data...</div>;
+        return <div className="text-center py-4">Loading trend data...</div>;
     }
 
     if (error) {
         return <div className="text-red-500 py-4">{error}</div>;
     }
 
-    // Format data for the line chart
-    const chartFormattedData = monthlyData
+    // Format labels nicely if data is hourly: "May 4, 9 AM"
+    const chartFormattedData = trendData
         ? {
-              labels: monthlyData.map((item) => item._id),
+              labels: trendData.map((item) => {
+                  const [year, month, day, hour] = item._id.split("-").map(Number);
+                  const date = new Date(year, month - 1, day, hour);
+                  return date.toLocaleString("en-US", {
+                      hour: "numeric",
+                      hour12: true,
+                      day: "numeric",
+                      month: "short",
+                  });
+              }),
               datasets: [
                   {
-                      label: "Product Creation Trend",
-                      data: monthlyData.map((item) => item.count),
+                      label: "Hourly Product Creation Trend",
+                      data: trendData.map((item) => item.count),
                       fill: false,
                       borderColor: "rgba(75, 192, 192, 1)",
                       backgroundColor: "rgba(75, 192, 192, 0.5)",
@@ -88,7 +96,6 @@ const MonthlyTrendChart = () => {
           }
         : null;
 
-    // Chart options
     const options = {
         responsive: true,
         maintainAspectRatio: false,
@@ -98,7 +105,7 @@ const MonthlyTrendChart = () => {
             },
             title: {
                 display: true,
-                text: "Monthly Product Creation Trend",
+                text: "Hourly Product Creation Trend",
                 font: {
                     size: 16,
                     weight: "bold",
@@ -108,6 +115,10 @@ const MonthlyTrendChart = () => {
         scales: {
             y: {
                 beginAtZero: true,
+                ticks: {
+                    precision: 0, // Only show whole numbers
+                    stepSize: 1,  // Step by 1
+                }
             },
         },
     };
@@ -115,15 +126,15 @@ const MonthlyTrendChart = () => {
     return (
         <div className="w-full p-4 bg-white rounded-lg shadow-sm mb-6">
             <div className="mb-4">
-                <h2 className="text-xl font-semibold">Monthly Product Creation Trend</h2>
+                <h2 className="text-xl font-semibold">Hourly Product Creation Trend</h2>
             </div>
 
-            {monthlyData ? (
+            {chartFormattedData && chartFormattedData.labels.length > 0 ? (
                 <div className="relative h-80">
                     <Line data={chartFormattedData} options={options} />
                 </div>
             ) : (
-                <p>No monthly data available</p>
+                <p>No trend data available</p>
             )}
         </div>
     );
