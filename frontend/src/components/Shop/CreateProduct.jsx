@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { createProduct } from "../../redux/actions/product"
 import { categoriesData } from "../../static/data"
 import { toast } from "react-toastify"
+import axios from "axios"
 
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller)
@@ -35,19 +36,37 @@ const CreateProduct = () => {
   }, [dispatch, error, success])
 
   const handleImageChange = (e) => {
-    e.preventDefault()
     const files = Array.from(e.target.files)
     setImages((prevImages) => [...prevImages, ...files])
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const newForm = new FormData()
+    // Upload to Cloudinary first
+    const uploadPreset = "hackathonform"
+    const cloudName = "dgjqg72wo"
+    const uploadedUrls = []
 
-    images.forEach((image) => {
-      newForm.append("images", image)
-    })
+    for (const file of images) {
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("upload_preset", uploadPreset)
+
+      try {
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          formData
+        )
+        uploadedUrls.push(response.data.secure_url)
+      } catch (error) {
+        console.error("Upload failed:", file.name, error)
+      }
+    }
+
+    // Build form payload
+    const newForm = new FormData()
+    uploadedUrls.forEach((url) => newForm.append("images", url))
     newForm.append("name", name)
     newForm.append("description", description)
     newForm.append("category", category)
@@ -56,8 +75,9 @@ const CreateProduct = () => {
     newForm.append("discountPrice", discountPrice)
     newForm.append("stock", stock)
     newForm.append("shopId", seller._id)
+
     dispatch(createProduct(newForm))
-  }
+}
 
   return (
     <div className="w-[90%] 800px:w-[50%] bg-white shadow-md rounded-lg p-6 overflow-y-auto mx-auto my-8">
@@ -176,23 +196,28 @@ const CreateProduct = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Upload Images <span className="text-red-500">*</span>
           </label>
-          <input type="file" name="" id="upload" className="hidden" multiple onChange={handleImageChange} />
+          <input
+            type="file"
+            id="upload"
+            className="hidden"
+            multiple
+            onChange={handleImageChange}
+          />
           <div className="w-full flex items-center flex-wrap gap-2 mt-2">
             <label htmlFor="upload" className="cursor-pointer">
               <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center hover:border-blue-500 transition-colors">
                 <AiOutlinePlusCircle size={30} className="text-gray-500" />
               </div>
             </label>
-            {images &&
-              images.map((i, index) => (
-                <div key={index} className="relative group">
-                  <img
-                    src={URL.createObjectURL(i) || "/placeholder.svg"}
-                    alt=""
-                    className="h-[80px] w-[80px] object-cover rounded-lg border border-gray-200"
-                  />
-                </div>
-              ))}
+            {images.map((file, index) => (
+              <div key={index} className="relative group">
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`preview-${index}`}
+                  className="h-[80px] w-[80px] object-cover rounded-lg border border-gray-200"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -208,4 +233,3 @@ const CreateProduct = () => {
 }
 
 export default CreateProduct
-

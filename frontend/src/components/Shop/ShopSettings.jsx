@@ -20,28 +20,61 @@ const ShopSettings = () => {
     const dispatch = useDispatch();
 
     // Image updated
-    const handleImage = async (e) => {
-        e.preventDefault();
-        const file = e.target.files[0];
-        setAvatar(file);
-
+    const handleImageUpload = async (file) => {
+        const uploadPreset = "hackathonform"; // Your Cloudinary upload preset
+        const cloudName = "dgjqg72wo"; // Your Cloudinary cloud name
         const formData = new FormData();
-
-        formData.append("image", e.target.files[0]);
-
-        await axios.put(`${server}/shop/update-shop-avatar`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-        }).then((res) => {
-            dispatch(loadSeller());
-            toast.success("Avatar updated successfully!")
-        }).catch((error) => {
-            toast.error(error.response.data.message);
-        })
-
+        formData.append("file", file); // Append the file to the FormData object
+        formData.append("upload_preset", uploadPreset); // Append your upload preset
+    
+        try {
+            // Upload the file to Cloudinary
+            const response = await axios.post(
+                `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data", // Specify the content type
+                    },
+                    withCredentials: false, // No need for credentials for this request
+                }
+            );
+            return response.data.secure_url; // Return the Cloudinary image URL
+        } catch (error) {
+            console.error(
+                "Error uploading file:",
+                error.response ? error.response.data : error.message
+            );
+            return null; // Return null if there was an error
+        }
     };
+    
+    const handleImage = async (e) => {
+        const file = e.target.files[0];
+        setAvatar(file); // Set the selected file in state
+    
+        // Get the Cloudinary URL after uploading the image
+        const cloudinaryUrl = await handleImageUpload(file);
+    
+        if (cloudinaryUrl) {
+            try {
+                await axios.put(
+                    `${server}/shop/update-shop-avatar`,
+                    { avatarUrl: cloudinaryUrl }, 
+                    {
+                        withCredentials: true,
+                    }
+                );
+                dispatch(loadSeller());
+                toast.success("Avatar updated successfully!");
+            } catch (error) {
+                toast.error(error.response?.data?.message || "Error updating avatar");
+            }
+        } else {
+            toast.error("Failed to upload image");
+        }
+    };
+    
 
     const updateHandler = async (e) => {
         e.preventDefault();
@@ -69,7 +102,7 @@ const ShopSettings = () => {
                     <div className="relative">
                         <img
                             src={
-                                avatar ? URL.createObjectURL(avatar) : `${backend_url}/${seller.avatar}`
+                                avatar ? URL.createObjectURL(avatar) : `${seller.avatar}`
                             }
                             alt=""
                             className="w-[200px] h-[200px] rounded-full cursor-pointer"
