@@ -71,25 +71,33 @@ const CreateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const uploadedUrls = await Promise.all(
-      images.map(async (image) => {
-        const url = await handleImageUpload(image);
-        return url;
-      })
-    );
-
-    const newForm = new FormData()
-    const validUrls = uploadedUrls.filter((url) => url !== null);
-    validUrls.forEach((url) => newForm.append("images", url));
-    newForm.append("name", name)
-    newForm.append("description", description)
-    newForm.append("category", category)
-    newForm.append("tags", tags)
-    newForm.append("originalPrice", originalPrice)
-    newForm.append("discountPrice", discountPrice)
-    newForm.append("stock", stock)
-    newForm.append("shopId", seller._id)
-    dispatch(createProduct(newForm))
+    toast.info("Uploading images and adding product...", {
+      autoClose: false,  // Keep it open until the process finishes
+    });
+    try{
+      const uploadedUrls = await Promise.all(
+        images.map(async (image) => {
+          const url = await handleImageUpload(image);
+          return url;
+        })
+      );
+  
+      const newForm = new FormData()
+      const validUrls = uploadedUrls.filter((url) => url !== null);
+      validUrls.forEach((url) => newForm.append("images", url));
+      newForm.append("name", name)
+      newForm.append("description", description)
+      newForm.append("category", category)
+      newForm.append("tags", tags)
+      newForm.append("originalPrice", originalPrice)
+      newForm.append("discountPrice", discountPrice)
+      newForm.append("stock", stock)
+      newForm.append("shopId", seller._id)
+      await dispatch(createProduct(newForm))
+      toast.success("product added successfully!");
+    }catch (error) {
+      toast.error("Failed to add the product. Please try again.");
+  }
   }
 
   return (

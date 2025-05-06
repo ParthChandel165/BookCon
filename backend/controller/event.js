@@ -284,35 +284,22 @@ router.delete(
     isSeller,
     catchAsyncErrors(async (req, res, next) => {
         try {
-            const productId = req.params.id;
-
-            const eventData = await Event.findById(productId);
-
-            eventData.images.forEach((imageUrl) => {
-                const filename = imageUrl;
-                const filePath = `uploads/${filename}`;
-
-                fs.unlink(filePath, (err) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
-            });
-
-            const event = await Event.findByIdAndDelete(productId);
-
+            const eventId = req.params.id;
+            // Find the event in the database
+            const event = await Event.findById(eventId);
             if (!event) {
                 return next(
-                    new ErrorHandler("Event not found with this id!", 500)
+                    new ErrorHandler("Event not found with this id!", 404)
                 );
             }
-
-            res.status(201).json({
+            // Delete the event from the database
+            await Event.findByIdAndDelete(eventId);
+            res.status(200).json({
                 success: true,
-                message: "Event Deleted successfully!",
+                message: "Event deleted successfully!",
             });
         } catch (error) {
-            return next(new ErrorHandler(error, 400));
+            return next(new ErrorHandler(error, 500));
         }
     })
 );

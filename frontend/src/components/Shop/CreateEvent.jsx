@@ -78,7 +78,9 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    toast.info("Uploading images and creating event...", {
+      autoClose: false,  // Keep it open until the process finishes
+    });
     try {
       const uploadedUrls = await Promise.all(
         images.map(async (image) => {
@@ -100,7 +102,8 @@ const CreateEvent = () => {
     newForm.append("shopId", seller._id);
     newForm.append("start_Date", startDate.toISOString());
     newForm.append("Finish_Date", endDate.toISOString());
-    dispatch(createevent(newForm));
+    await dispatch(createevent(newForm));
+    toast.success("Event created successfully!");
   } catch (err) {
     toast.error("Failed to create event. Please try again.");
     console.error(err);
