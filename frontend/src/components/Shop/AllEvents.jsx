@@ -21,7 +21,7 @@ const AllEvents = () => {
     dispatch(getAllEventsShop(seller._id))
   }, [dispatch])
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = (id,e) => {
     e.preventDefault(); 
     setEventToDelete(id)
     setShowConfirmation(true)

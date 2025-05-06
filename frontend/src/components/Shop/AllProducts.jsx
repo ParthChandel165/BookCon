@@ -33,7 +33,7 @@ const AllProducts = () => {
     dispatch(getAllProductsShop(seller._id))
   }, [dispatch, seller._id])
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = (id,e) => {
     e.preventDefault(); 
     setProductToDelete(id)
     setShowConfirmation(true)
