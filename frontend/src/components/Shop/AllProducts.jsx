@@ -39,13 +39,13 @@ const AllProducts = () => {
     setShowConfirmation(true)
   }
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (productToDelete) {
       try{
-        dispatch(deleteProduct(productToDelete))
-      setShowConfirmation(false)
-      toast.success("Deleted Product Successfully!")
-      window.location.reload()
+        await dispatch(deleteProduct(productToDelete))
+        setShowConfirmation(false)
+        toast.success("Deleted Product Successfully!")
+        window.location.reload()
       }catch(err){
         toast.error("An error occurred while deleting the product")
       }

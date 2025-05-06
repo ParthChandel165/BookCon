@@ -30,7 +30,7 @@ const AllEvents = () => {
   const confirmDelete = () => {
     if (eventToDelete) {
       try{
-        dispatch(deleteEvent(eventToDelete))
+        await dispatch(deleteEvent(eventToDelete))
         setShowConfirmation(false)
         toast.success("Deleted Event Successfully!")
         window.location.reload()
