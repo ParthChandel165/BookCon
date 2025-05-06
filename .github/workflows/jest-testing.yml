@@ -44,7 +44,8 @@ jobs:
       # Install frontend dependencies
       - name: Install Frontend Dependencies
         working-directory: frontend
-        run: npm ci
+        run: npm ci --legacy-peer-deps
+    
 
       # Run backend tests
       - name: Run Backend Test Suite
