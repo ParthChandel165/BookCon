@@ -215,9 +215,8 @@ router.post(
     "/create-event",
     catchAsyncErrors(async (req, res, next) => {
         try {
-            const shopId = req.params.id;
-            const shop = await Shop.findById(shopId);
-    
+            const shop = await Shop.findById(req.seller._id);
+            console.log(shop);
             if (!shop) {
             return next(new ErrorHandler("Shop ID is invalid!", 400));
             }

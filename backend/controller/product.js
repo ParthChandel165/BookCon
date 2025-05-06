@@ -157,8 +157,8 @@ router.post(
     upload.array("images"),
     catchAsyncErrors(async (req, res, next) => {
         try {
-            const shopId = req.params.id;
-            const shop = await Shop.findById(shopId);
+            const shop = await Shop.findById(req.seller._id);
+            console.log(shop);
             if (!shop) {
                 return next(new ErrorHandler("Shop Id is invalid!", 400));
             } else {
