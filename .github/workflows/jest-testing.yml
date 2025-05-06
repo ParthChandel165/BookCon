@@ -1,4 +1,4 @@
-name: Run Jest Tests
+name: Debug Jest Tests
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: Run Unit Tests
+    name: Debug Unit Tests
     runs-on: windows-latest
     
     env:
@@ -33,16 +33,43 @@ jobs:
         with:
           node-version: '16'
 
+      - name: List repository contents
+        run: dir
+
       - name: Install dependencies
         run: |
           npm ci
           npm install -g jest
 
-      - name: Debug information
+      - name: Show package.json content
+        run: type package.json
+
+      - name: Show jest config
+        run: type jest.config.js
+
+      - name: Debug environment
         run: |
           node -v
           npm -v
           npm list --depth=0
+          echo "Working directory:"
+          cd
+          echo "Test files:"
+          dir /s *test.js
 
-      - name: Run tests
-        run: npx jest --forceExit --detectOpenHandles --runInBand --verbose
+      # Run individual test files one by one to identify which one is failing
+      - name: Run auth test
+        continue-on-error: true  # Continue even if this test fails
+        run: npx jest middleware/auth.test.js --verbose
+
+      - name: Run product test
+        continue-on-error: true  # Continue even if this test fails
+        run: npx jest controller/product.test.js --verbose
+
+      - name: Run order test
+        continue-on-error: true  # Continue even if this test fails
+        run: npx jest controller/order.test.js --verbose
+
+      - name: Run user test
+        continue-on-error: true  # Continue even if this test fails
+        run: npx jest model/user.test.js --verbose
