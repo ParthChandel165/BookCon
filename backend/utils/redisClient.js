@@ -1,4 +1,4 @@
-import { createClient } from 'redis';
+const { createClient } = require('redis');
 
 const client = createClient({
     username: 'default',
@@ -21,14 +21,16 @@ client.on('ready', () => {
     console.log('Redis client connected and ready to use!');
 });
 
-try {
-    await client.connect();
+(async () => {
+    try {
+        await client.connect();
 
-    console.log('Connected to Redis. Setting key...');
-    await client.set('foo', 'bar');
+        console.log('Connected to Redis. Setting key...');
+        await client.set('foo', 'bar');
 
-    const result = await client.get('foo');
-    console.log('Retrieved value from Redis:', result);  // >>> bar
-} catch (err) {
-    console.error('Error while connecting to or interacting with Redis:', err);
-}
+        const result = await client.get('foo');
+        console.log('Retrieved value from Redis:', result);  // >>> bar
+    } catch (err) {
+        console.error('Error while connecting to or interacting with Redis:', err);
+    }
+})();
