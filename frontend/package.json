@@ -33,7 +33,9 @@
   },
   "scripts": {
     "start": "set SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
-    "build": "set SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build"
+    "build": "set SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+    "test": "jest --coverage --detectOpenHandles"
+
   },
   "eslintConfig": {
     "extends": [
