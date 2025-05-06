@@ -6,4 +6,7 @@ module.exports = {
     clearMocks: true,
     resetMocks: true,
     restoreMocks: true,
+    transform: {
+        "^.+\\.[jt]sx?$": "babel-jest"
+    }
 };
