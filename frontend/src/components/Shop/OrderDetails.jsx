@@ -95,7 +95,7 @@ const OrderDetails = () => {
               data?.cart.map((item, index) => (
                 <div key={index} className="flex items-start p-3 border rounded-lg hover:bg-gray-50">
                   <img
-                    src={`${backend_url}/${item.images[0]}`}
+                    src={`$${item.images[0]}`}
                     alt="Product item"
                     className="w-[60px] h-[60px] object-cover rounded-md"
                   />
