@@ -21,16 +21,16 @@ client.on('ready', () => {
     console.log('Redis client connected and ready to use!');
 });
 
-(async () => {
+const connectRedis = async () => {
     try {
         await client.connect();
-
-        console.log('Connected to Redis. Setting key...');
-        await client.set('foo', 'bar');
-
-        const result = await client.get('foo');
-        console.log('Retrieved value from Redis:', result);  // >>> bar
+        console.log('✅ Connected to Redis!');
     } catch (err) {
-        console.error('Error while connecting to or interacting with Redis:', err);
+        console.error('❌ Error while connecting to Redis:', err);
     }
-})();
+};
+
+module.exports = {
+    client,
+    connectRedis
+};
