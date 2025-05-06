@@ -43,7 +43,6 @@ const ShopCreate = () => {
 
     // Create FormData for submitting the shop data including the Cloudinary URL for the avatar
     const newForm = new FormData()
-    newForm.append("file", avatar)
     newForm.append("avatarUrl", avatarUrl)  // Add the Cloudinary URL here
     newForm.append("name", name)
     newForm.append("email", email)

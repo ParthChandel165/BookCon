@@ -117,27 +117,15 @@ dotenv.config();
  *         description: User deleted successfully
  */
 
-router.post("/create-user", upload.single("file"), async (req, res, next) => {
+router.post("/create-user", upload.none(), async (req, res, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, avatarUrl } = req.body;
         const userEmail = await User.findOne({ email });
 
         if (userEmail) {
-            // if user already exits account is not create and file is deleted
-            const filename = req.file.filename;
-            const filePath = `uploads/${filename}`;
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    console.log(err);
-                    res.status(500).json({ message: "Error deleting file" });
-                }
-            });
-
             return next(new ErrorHandler("User already exits", 400));
         }
-
-        const filename = req.file.filename;
-        const fileUrl = path.join(filename);
+        const fileUrl = avatarUrl
 
         const user = {
             name: name,

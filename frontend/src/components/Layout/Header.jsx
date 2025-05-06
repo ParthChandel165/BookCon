@@ -60,12 +60,11 @@ const Header = ({ activeHeading }) => {
         <div className="hidden 8px:h-[5px] 80px:my-[20px] 800px:flex items-center justify-between ">
           <div>
             <Link to="/">
-            <img
-            src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png"
-            alt="BookCon Logo"
-            className="w-[170px] h-auto"
-            />
-
+              <img
+                src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png"
+                alt="BookCon Logo"
+                className="w-[170px] h-auto"
+              />
             </Link>
           </div>
           {/*Search box  */}
@@ -159,32 +158,35 @@ const Header = ({ activeHeading }) => {
           </div>
 
           <div className="flex">
-            <div className={`${styles.noramlFlex}`}>
-              <div
-                className="relative cursor-pointer mr-[15px]"
-                onClick={() => setOpenWishlist(true)}
-              >
-                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  {wishlist && wishlist.length}
-                </span>
-              </div>
-            </div>
-
-            <div className={`${styles.noramlFlex}`}>
-              <div
-                className="relative cursor-pointer mr-[15px]"
-                onClick={() => setOpenCart(true)}
-              >
-                <AiOutlineShoppingCart
-                  size={30}
-                  color="rgb(255 255 255 / 83%)"
-                />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  {cart && cart.length}
-                </span>
-              </div>
-            </div>
+            {user && user.role !== "Admin" && (
+              <>
+                <div className={`${styles.noramlFlex}`}>
+                  <div
+                    className="relative cursor-pointer mr-[15px]"
+                    onClick={() => setOpenWishlist(true)}
+                  >
+                    <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
+                    <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                      {wishlist && wishlist.length}
+                    </span>
+                  </div>
+                </div>
+                <div className={`${styles.noramlFlex}`}>
+                  <div
+                    className="relative cursor-pointer mr-[15px]"
+                    onClick={() => setOpenCart(true)}
+                  >
+                    <AiOutlineShoppingCart
+                      size={30}
+                      color="rgb(255 255 255 / 83%)"
+                    />
+                    <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                      {cart && cart.length}
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* avatar */}
             <div className={`${styles.noramlFlex}`}>
@@ -204,16 +206,19 @@ const Header = ({ activeHeading }) => {
                 )}
               </div>
             </div>
-            {/* Avatar end */}
-            {/* card  popup start */}
-            {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
-            {/* card popup end */}
+            {user && user.role !== "Admin" && (
+              <>
+                {/* Avatar end */}
 
-            {/* Wish list pop uo Start */}
-            {openWishlist ? (
-              <Wishlist setOpenWishlist={setOpenWishlist} />
-            ) : null}
-            {/* Wish list pop uo end */}
+                {/* Cart popup start */}
+                {openCart && <Cart setOpenCart={setOpenCart} />}
+                {/* Cart popup end */}
+
+                {/* Wishlist popup start */}
+                {openWishlist && <Wishlist setOpenWishlist={setOpenWishlist} />}
+                {/* Wishlist popup end */}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -235,11 +240,11 @@ const Header = ({ activeHeading }) => {
           </div>
           <div>
             <Link to="/">
-            <img
-            src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png"
-            alt="BookCon Logo"
-            className="w-[170px] h-auto"
-            />
+              <img
+                src="https://www.buffalolib.org/sites/default/files/users/cenblog/bookcon.png"
+                alt="BookCon Logo"
+                className="w-[170px] h-auto"
+              />
             </Link>
           </div>
 
