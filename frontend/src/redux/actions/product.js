@@ -55,7 +55,7 @@ export const deleteProduct = (id) => async (dispatch) => {
     dispatch({
       type: "deleteProductRequest",
     });
-
+    console.log("Sending delete request for product ID:", id);
     const { data } = await axios.delete(
       `${server}/product/delete-shop-product/${id}`,
       {

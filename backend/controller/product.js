@@ -232,9 +232,7 @@ router.delete(
     catchAsyncErrors(async (req, res, next) => {
         try {
             const productId = req.params.id;
-
-            const productData = await Product.findById(productId);
-
+            console.log("Attempting to delete product with ID:", productId); // Debug log
             const product = await Product.findByIdAndDelete(productId);
 
             if (!product) {

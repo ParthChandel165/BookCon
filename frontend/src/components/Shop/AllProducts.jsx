@@ -5,9 +5,9 @@ import { DataGrid } from "@material-ui/data-grid"
 import { makeStyles } from "@material-ui/core/styles"
 import { useEffect, useState } from "react"
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import axios from "axios"
-import { toast } from "react-toastify"  // Import toast from react-toastify
+import { getAllProductsShop, deleteProduct } from "../../redux/actions/product"
 import Loader from "../Layout/Loader"
 
 // ✅ MUI v4 styles using makeStyles
@@ -22,49 +22,27 @@ const useStyles = makeStyles(() => ({
 
 const AllProducts = () => {
   const classes = useStyles()
-  const [products, setProducts] = useState([]) // State for products
+  const { products, isLoading } = useSelector((state) => state.products)
+  const { seller } = useSelector((state) => state.seller)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [productToDelete, setProductToDelete] = useState(null)
-  const [isLoading, setIsLoading] = useState(true) // State for loading
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    // Fetch the products initially when the component mounts
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('/api/v2/product/get-all-products')
-        setProducts(response.data.products)
-        setIsLoading(false)
-      } catch (error) {
-        setIsLoading(false)
-        toast.error("Failed to load products.")
-      }
-    }
-    fetchProducts()
-  }, [])
+    dispatch(getAllProductsShop(seller._id))
+  }, [dispatch, seller._id])
 
   const handleDeleteClick = (id) => {
     setProductToDelete(id)
     setShowConfirmation(true)
   }
 
-  const confirmDelete = async () => {
+  const confirmDelete = () => {
     if (productToDelete) {
-      try {
-        // Make a DELETE request to the backend
-        const response = await axios.delete(`/api/v2/product/delete-shop-product/${productToDelete}`)
-        
-        if (response.status === 200) {
-          // If the delete was successful, remove the product from the UI
-          setShowConfirmation(false)
-          setProducts(products.filter((row) => row._id !== productToDelete))
-          toast.success("Product deleted successfully.")
-        }
-      } catch (error) {
-        // Handle any errors
-        console.error("Error deleting product:", error)
-        setShowConfirmation(false)
-        toast.error("Failed to delete product.")
-      }
+      dispatch(deleteProduct(productToDelete))
+      setShowConfirmation(false)
+      window.location.reload()
     }
   }
 
@@ -149,13 +127,13 @@ const AllProducts = () => {
     },
   ]
 
-  const rows = products.map((item) => ({
+  const rows = products?.map((item) => ({
     id: item._id,
     name: item.name,
     price: "₹" + item.discountPrice,
     Stock: item.stock,
     sold: item.sold_out,
-  }))
+  })) || []
 
   return (
     <>

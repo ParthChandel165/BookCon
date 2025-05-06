@@ -4,54 +4,33 @@ import { Button } from "@material-ui/core"
 import { DataGrid } from "@material-ui/data-grid"
 import { useEffect, useState } from "react"
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import axios from "axios"
-import { toast } from "react-toastify"  // Import toast from react-toastify
+import { deleteEvent, getAllEventsShop } from "../../redux/actions/event"
 import Loader from "../Layout/Loader"
 
 const AllEvents = () => {
-  const [events, setEvents] = useState([]) // State for events
+  const { events, isLoading } = useSelector((state) => state.events)
+  const { seller } = useSelector((state) => state.seller)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [eventToDelete, setEventToDelete] = useState(null)
-  const [isLoading, setIsLoading] = useState(true) // Loading state
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    // Fetch all events on component mount
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(`/api/v2/event/get-all-events-shop`)
-        setEvents(response.data.events)
-        setIsLoading(false)
-      } catch (error) {
-        setIsLoading(false)
-        toast.error("Failed to load events.")
-      }
-    }
-
-    fetchEvents()
-  }, [])
+    dispatch(getAllEventsShop(seller._id))
+  }, [dispatch])
 
   const handleDeleteClick = (id) => {
     setEventToDelete(id)
     setShowConfirmation(true)
   }
 
-  const confirmDelete = async () => {
+  const confirmDelete = () => {
     if (eventToDelete) {
-      try {
-        // Make a DELETE request to delete the event
-        const response = await axios.delete(`/api/v2/event/delete-event/${eventToDelete}`)
-        
-        if (response.status === 200) {
-          setShowConfirmation(false)
-          // Remove the deleted event from the state
-          setEvents(events.filter((event) => event._id !== eventToDelete))
-          toast.success("Event deleted successfully.")
-        }
-      } catch (error) {
-        setShowConfirmation(false)
-        toast.error("Failed to delete event.")
-      }
+      dispatch(deleteEvent(eventToDelete))
+      setShowConfirmation(false)
+      window.location.reload()
     }
   }
 
@@ -108,41 +87,52 @@ const AllEvents = () => {
       flex: 0.5,
       minWidth: 100,
       headerName: "View",
+      type: "number",
       sortable: false,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <Link to={`/product/${params.id}?isEvent=true`}>
-          <Button className="min-w-[30px] p-1 rounded-full bg-blue-50 hover:bg-blue-100">
-            <AiOutlineEye size={18} className="text-blue-600" />
-          </Button>
-        </Link>
-      ),
+      renderCell: (params) => {
+        return (
+          <Link to={`/product/${params.id}?isEvent=true`}>
+            <Button className="min-w-[30px] p-1 rounded-full bg-blue-50 hover:bg-blue-100">
+              <AiOutlineEye size={18} className="text-blue-600" />
+            </Button>
+          </Link>
+        )
+      },
     },
     {
       field: "Delete",
       flex: 0.5,
       minWidth: 100,
       headerName: "Delete",
+      type: "number",
       sortable: false,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => (
-        <Button
-          onClick={() => handleDeleteClick(params.id)}
-          className="min-w-[30px] p-1 rounded-full bg-red-50 hover:bg-red-100"
-        >
-          <AiOutlineDelete size={18} className="text-red-600" />
-        </Button>
-      ),
+      renderCell: (params) => {
+        return (
+          <Button
+            onClick={() => handleDeleteClick(params.id)}
+            className="min-w-[30px] p-1 rounded-full bg-red-50 hover:bg-red-100"
+          >
+            <AiOutlineDelete size={18} className="text-red-600" />
+          </Button>
+        )
+      },
     },
   ]
 
-  const rows = events.map((item) => ({
-    id: item._id,
-    name: item.name,
-    price: "₹" + item.discountPrice,
-    Stock: item.stock,
-    sold: item.sold_out,
-  }))
+  const row = []
+
+  events &&
+    events.forEach((item) => {
+      row.push({
+        id: item._id,
+        name: item.name,
+        price: "₹" + item.discountPrice,
+        Stock: item.stock,
+        sold: item.sold_out,
+      })
+    })
 
   return (
     <>
@@ -153,9 +143,16 @@ const AllEvents = () => {
           <div className="p-4 border-b">
             <h2 className="text-xl font-semibold text-gray-800">All Events</h2>
           </div>
-          <div className="w-full">
+          <div
+            className="w-full"
+            style={{
+              "& .super-app-theme--header": {
+                backgroundColor: "#f9fafb",
+              },
+            }}
+          >
             <DataGrid
-              rows={rows}
+              rows={row}
               columns={columns}
               pageSize={10}
               disableSelectionOnClick
@@ -196,3 +193,4 @@ const AllEvents = () => {
 }
 
 export default AllEvents
+
