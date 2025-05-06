@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { createProduct } from "../../redux/actions/product"
 import { categoriesData } from "../../static/data"
 import { toast } from "react-toastify"
-
+import axios from "axios"
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller)
   const { success, error } = useSelector((state) => state.products)
