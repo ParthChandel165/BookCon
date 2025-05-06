@@ -13,12 +13,11 @@ const { connectRedis } = require('./utils/redisClient');
 connectRedis();
 
 
-// config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({
-    path: "config/.env",
-  });
-}
+
+require("dotenv").config({
+  path: "config/.env",
+});
+
 // connect db
 connectDatabase();
 
@@ -47,16 +46,6 @@ app.get("/test", (req, res) => {
 });
 
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-
-// why bodyparser?
-// bodyparser is used to parse the data from the body of the request to the server (POST, PUT, DELETE, etc.)
-
-// config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({
-    path: "config/.env",
-  });
-}
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
