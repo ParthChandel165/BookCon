@@ -1,21 +1,34 @@
-const { createClient } = require('redis');
+import { createClient } from 'redis';
 
-// Configure Redis connection options (can be extended to use env variables)
 const client = createClient({
-  url: process.env.REDIS_URL || 'redis://localhost:6379',
+    username: 'default',
+    password: 'UupGSE1H8aGgARsRKk7pzbfG1NIHrtb1',
+    socket: {
+        host: 'redis-13203.c309.us-east-2-1.ec2.redns.redis-cloud.com',
+        port: 13203
+    }
 });
 
-client.on('error', (err) => console.error('Redis Client Error:', err));
+client.on('error', err => {
+    console.error('Redis Client Error:', err);
+});
 
-async function connectRedis() {
-  if (!client.isOpen) {
-    try {
-      await client.connect();
-      console.log(' Redis connected successfully');
-    } catch (err) {
-      console.error(' Redis connection failed:', err);
-    }
-  }
+client.on('connect', () => {
+    console.log('Redis client is connecting...');
+});
+
+client.on('ready', () => {
+    console.log('Redis client connected and ready to use!');
+});
+
+try {
+    await client.connect();
+
+    console.log('Connected to Redis. Setting key...');
+    await client.set('foo', 'bar');
+
+    const result = await client.get('foo');
+    console.log('Retrieved value from Redis:', result);  // >>> bar
+} catch (err) {
+    console.error('Error while connecting to or interacting with Redis:', err);
 }
-
-module.exports = { client, connectRedis };
