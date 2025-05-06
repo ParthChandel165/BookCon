@@ -49,29 +49,59 @@ const ProfileContent = ({ active }) => {
     }
 
     // Image update
-    const handleImage = async (e) => {
-        const file = e.target.files[0];
-        setAvatar(file);
 
+    const handleImageUpload = async (file) => {
+        const uploadPreset = "hackathonform";
+        const cloudName = "dgjqg72wo";
         const formData = new FormData();
-
-        formData.append("image", e.target.files[0]);
-
-        await axios
-            .put(`${server}/user/update-avatar`, formData, {
+        formData.append("file", file);
+        formData.append("upload_preset", uploadPreset);
+    
+            try {
+            const response = await axios.post(
+                `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                formData,
+                {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-                withCredentials: true,
-            })
-            .then((response) => {
-                dispatch(loadUser());
-                toast.success("avatar updated successfully!");
-            })
-            .catch((error) => {
-                toast.error(error);
-            });
+                withCredentials: false,
+                }
+            );
+            return response.data.secure_url; // Return Cloudinary image URL
+            } catch (error) {
+            console.error(
+                "Error uploading file:",
+                error.response ? error.response.data : error.message
+            );
+            return null;
+            }
     };
+
+    const handleImage = async (e) => {
+        const file = e.target.files[0];
+        setAvatar(file);
+    
+        const cloudinaryUrl = await handleImageUpload(file); // Get the URL from Cloudinary
+    
+        if (cloudinaryUrl) {
+            try {
+                // Send the URL to your backend
+                await axios.put(`${server}/user/update-avatar`, { avatarUrl: cloudinaryUrl }, {
+                    withCredentials: true,
+                });
+    
+                // Optionally, reload user data or update UI
+                dispatch(loadUser());
+                toast.success("Avatar updated successfully!");
+            } catch (error) {
+                toast.error(error);
+            }
+        } else {
+            toast.error("Failed to upload image");
+        }
+    };
+    
 
 
     return (
@@ -82,7 +112,7 @@ const ProfileContent = ({ active }) => {
                     <>
                         <div className="flex justify-center w-full">
                             <div className='relative'>
-                                <img src={`${backend_url}${user?.avatar}`}
+                                <img src={`${user?.avatar}`}
                                     className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
                                     alt="profile img" />
 

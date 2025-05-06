@@ -486,24 +486,19 @@ compare the provided password with the stored password for authentication purpos
 router.put(
     "/update-avatar",
     isAuthenticated,
-    upload.single("image"),
     catchAsyncErrors(async (req, res, next) => {
         try {
-            const existsUser = await User.findById(req.user.id);
+            const { avatarUrl } = req.body;
 
-            const existAvatarPath = `uploads/${existsUser.avatar}`;
+            // Validate that avatarUrl is present
+            if (!avatarUrl) {
+                return res.status(400).json({ success: false, message: "No avatar URL provided" });
+            }
 
-            fs.unlinkSync(existAvatarPath); // Delete Priviuse Image
-
-            const fileUrl = path.join(req.file.filename); // new image
-
-            /* The code `const user = await User.findByIdAndUpdate(req.user.id, { avatar: fileUrl });` is
-        updating the avatar field of the user with the specified `req.user.id`. It uses the
-        `User.findByIdAndUpdate()` method to find the user by their id and update the avatar field
-        with the new `fileUrl` value. The updated user object is then stored in the `user` variable. */
+            // Update the user’s avatar with the Cloudinary URL
             const user = await User.findByIdAndUpdate(req.user.id, {
-                avatar: fileUrl,
-            });
+                avatar: avatarUrl, // Store the Cloudinary URL instead of the local file path
+            }, { new: true }); // Return the updated user document
 
             res.status(200).json({
                 success: true,
@@ -514,6 +509,7 @@ router.put(
         }
     })
 );
+
 
 // update user addresses
 router.put(
