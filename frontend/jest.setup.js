@@ -1,8 +1,4 @@
 HTMLCanvasElement.prototype.getContext = () => {};
-// frontend/jest.setup.js
-global.import = {
-    meta: {
-      env: {}
-    }
-  };
+global.import = { meta: { env: { YOUR_VAR: "dummy" } } };
+
   
