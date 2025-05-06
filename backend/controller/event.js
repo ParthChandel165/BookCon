@@ -211,33 +211,46 @@ const fs = require("fs");
  */
 
 // create event
-router.post(
-    "/create-event",
-    catchAsyncErrors(async (req, res, next) => {
+    router.post(
+        "/create-event",
+        isSeller,
+        catchAsyncErrors(async (req, res, next) => {
         try {
             const shop = await Shop.findById(req.seller._id);
-            console.log(shop);
             if (!shop) {
             return next(new ErrorHandler("Shop ID is invalid!", 400));
             }
     
+            // Normalize images (ensure it's always an array)
+            const images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
+    
+            // Create the event using updated field names and structure
             const eventData = {
-            ...req.body,
-            images: req.body.images, // This is now an array of Cloudinary URLs
-            shop: shop,
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            tags: req.body.tags,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
+            originalPrice: req.body.originalPrice,
+            discountPrice: req.body.discountPrice,
+            stock: req.body.stock,
+            images: images,
+            shop: shop._id, // store only the ObjectId
             };
     
-            const product = await Event.create(eventData);
+            const event = await Event.create(eventData);
     
             res.status(201).json({
             success: true,
-            product,
+            event,
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));
         }
         })
-    );  
+    );
+
 
 // get all events
 router.get("/get-all-events", async (req, res, next) => {

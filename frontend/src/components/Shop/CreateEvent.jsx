@@ -64,28 +64,29 @@ const CreateEvent = () => {
         toast.error("Please upload at least one image.")
         return
       }
+    const uploadedImageUrls = await Promise.all(images.map(uploadToCloudinary));
 
-      const uploadedImageUrls = await Promise.all(images.map(uploadToCloudinary))
+    const newForm = new FormData();
+    newForm.append("name", name);
+    newForm.append("description", description);
+    newForm.append("category", category);
+    newForm.append("tags", tags);
+    newForm.append("originalPrice", originalPrice);
+    newForm.append("discountPrice", discountPrice);
+    newForm.append("stock", stock);
+    newForm.append("shopId", seller._id);
+    newForm.append("start_Date", startDate.toISOString());
+    newForm.append("Finish_Date", endDate.toISOString());
 
-      const newForm = new FormData()
-      newForm.append("name", name)
-      newForm.append("description", description)
-      newForm.append("category", category)
-      newForm.append("tags", tags)
-      newForm.append("originalPrice", originalPrice)
-      newForm.append("discountPrice", discountPrice)
-      newForm.append("stock", stock)
-      newForm.append("shopId", seller._id)
-      newForm.append("start_Date", startDate.toISOString())
-      newForm.append("Finish_Date", endDate.toISOString())
+    uploadedImageUrls.forEach((url) => newForm.append("images[]", url));
 
-      uploadedImageUrls.forEach((url) => newForm.append("images", url))
+    await dispatch(createevent(newForm)); // Assuming dispatch is returning a promise
+  } catch (err) {
+    toast.error("Failed to create event. Please try again.");
+    console.error(err);
+  }
 
-      dispatch(createevent(newForm))
-    } catch (err) {
-      toast.error("Image upload failed.")
-      console.error(err)
-    }
+      
   }
 
   useEffect(() => {
