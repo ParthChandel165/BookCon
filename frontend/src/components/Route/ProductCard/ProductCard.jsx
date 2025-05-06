@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToWishlist, removeFromWishlist } from '../../../redux/actions/wishlist';
 import { addTocart } from '../../../redux/actions/cart';
 import { toast } from 'react-toastify';
-import Ratings from "../../Products/Ratings";
+import Ratings from "../../Products/Ratings.jsx";
 
 const ProductCard = ({ data, isEvent }) => {
     const { wishlist } = useSelector((state) => state.wishlist);

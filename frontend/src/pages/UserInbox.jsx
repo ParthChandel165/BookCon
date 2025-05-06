@@ -51,14 +51,14 @@ const UserInbox = () => {
             withCredentials: true,
           }
         );
-
+        console.log(resonse.data.conversations);
         setConversations(resonse.data.conversations);
       } catch (error) {
         // console.log(error);
       }
     };
     getConversation();
-  }, [user, messages]);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -272,7 +272,7 @@ const MessageList = ({
     const getUser = async () => {
       try {
         const res = await axios.get(`${server}/shop/get-shop-info/${userId}`);
-
+        console.log(res.data.shop);
         setUser(res.data.shop);
       } catch (error) {
         console.log(error);
@@ -296,7 +296,7 @@ const MessageList = ({
     >
       <div className="relative">
         <img
-          src={`${userData?.avatar}`}
+          src={`${user?.avatar}`}
           alt=""
           className="w-[50px] h-[50px] rounded-full"
         />
@@ -307,7 +307,7 @@ const MessageList = ({
         )}
       </div>
       <div className="pl-3">
-        <h1 className="text-[18px]">{userData?.name}</h1>
+        <h1 className="text-[18px] font-[600]">{user.name}</h1>
         <p className="text-[16px] text-[#000c]">
           {data?.lastMessageId !== userData?._id
             ? "You:"
@@ -331,6 +331,7 @@ const SellerInbox = ({
   scrollRef,
   handleImageUpload,
 }) => {
+  console.log(userData);
   return (
     <div className="w-[full] min-h-full flex flex-col justify-between p-5">
       {/* message header */}
