@@ -8,6 +8,7 @@
     - Sathyam A
     - Sravya Sri
     - Amodini AP
+  
 
 
 ## 🌟BookCon🌟
@@ -15,6 +16,8 @@
 BookCon is a multi-vendor platform designed for book enthusiasts, where users can buy and sell books. The application allows users to register as sellers, enabling them to create and manage their shops and list books for sale. Administrators oversee the platform, ensuring smooth seller activities and maintaining overall functionality.
 
 Buyers can easily browse or search for books, add them to their shopping carts, and place orders using one of three available payment methods. BookCon fosters a seamless and engaging experience, connecting readers, sellers, and administrators in a vibrant book marketplace.
+
+Link for our website : https://bookcon-amber.vercel.app/
 </div>
 
 ##  Tech Stack

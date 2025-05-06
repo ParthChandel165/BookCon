@@ -375,14 +375,9 @@ router.put(
             }
 
             // Hash new password before saving
-<<<<<<< HEAD
-            user.password = await bcrypt.hash(password, 10);
-
-=======
             user.password = password;
             console.log(password);
             
->>>>>>> 89d94cc496160cf7049cef31cfe46980ca387955
             // Clear reset password fields
             user.resetPasswordToken = undefined;
             user.resetPasswordTime = undefined;
