@@ -35,7 +35,6 @@
     "start": "set SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
     "build": "set SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "test": "jest --coverage --detectOpenHandles"
-
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +58,7 @@
     "@babel/core": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "autoprefixer": "^10.4.14",
