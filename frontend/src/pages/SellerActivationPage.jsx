@@ -16,7 +16,7 @@ const SellerActivationPage = () => {
                         .post(`${server}/shop/activation`, {
                             activation_token
                         })
-
+                    console.log(res);
                 } catch (err) {
                     console.log(err.response.data.message);
                     setError(true);
@@ -38,9 +38,9 @@ const SellerActivationPage = () => {
             }}>
             {
                 error ? (
-                    <p className='text-red-800'>Your toke is expair </p>
+                    <p className='text-red-800'>Your token is expired</p>
                 ) : (
-                    <p className='text-green-800'>Your Account has been created sucess fully!</p>
+                    <p className='text-green-800'>Your Account has been created successfully!</p>
                 )
             }
 
