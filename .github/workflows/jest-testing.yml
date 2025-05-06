@@ -5,7 +5,7 @@ on:
     branches: [ main, master, development ]
   pull_request:
     branches: [ main, master, development ]
-  workflow_dispatch:  # Allows manual triggering of the workflow
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   test:
@@ -32,28 +32,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'npm'
 
       - name: Install dependencies
         run: |
           npm ci
           npm install -g jest
 
-      - name: Debug environment
+      - name: Debug information
         run: |
           node -v
           npm -v
           npm list --depth=0
 
-      - name: Run tests with increased timeout
+      - name: Run tests
         run: npx jest --forceExit --detectOpenHandles --runInBand --verbose
-        
-      - name: Upload test results
-        if: always()  # Upload results even if tests fail
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-results
-          path: |
-            coverage/
-            junit.xml
-          retention-days: 7
