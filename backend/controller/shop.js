@@ -344,6 +344,10 @@ router.post("/create-shop", upload.none(), async (req, res, next) => {
 
         const activationToken = createActivationToken(seller);
 
+
+
+
+        
         const activationUrl = `https://bookcon-amber.vercel.app/seller/activation/${activationToken}`;
 
         try {
