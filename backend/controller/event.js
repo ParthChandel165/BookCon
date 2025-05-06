@@ -213,34 +213,40 @@ const fs = require("fs");
 // create event
 router.post(
     "/create-event",
+    upload.none(), 
     catchAsyncErrors(async (req, res, next) => {
         try {
             const shopId = req.body.shopId;
             console.log(`Shop ID : ${shopId}`);
             const shop = await Shop.findById(shopId);
             console.log(`Shop : ${shop}`);
-    
             if (!shop) {
-            return next(new ErrorHandler("Shop ID is invalid!", 400));
+                return next(new ErrorHandler("Shop Id is invalid!", 400));
+            } else {
+                let imageUrls = req.body.images;
+                
+                if (!imageUrls) {
+                    imageUrls = [];
+                } else if (typeof imageUrls === "string") {
+                imageUrls = [imageUrls]; // single image case
+                }
+
+                const eventData = req.body;
+                eventData.images = imageUrls;
+                eventData.shop = shop;
+
+                const product = await Event.create(eventData);
+
+                res.status(201).json({
+                    success: true,
+                    product,
+                });
             }
-    
-            const eventData = {
-            ...req.body,
-            images: req.body.images,
-            shop: shop,
-            };
-    
-            const product = await Event.create(eventData);
-    
-            res.status(201).json({
-            success: true,
-            product,
-            });
         } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
+            return next(new ErrorHandler(error, 400));
         }
-        })
-    );
+    })
+);
 
 // get all events
 router.get("/get-all-events", async (req, res, next) => {

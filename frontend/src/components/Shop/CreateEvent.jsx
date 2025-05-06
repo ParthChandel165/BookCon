@@ -41,32 +41,55 @@ const CreateEvent = () => {
     setEndDate(new Date(e.target.value))
   }
 
+  const handleImageUpload = async (file) => {
+    const uploadPreset = "hackathonform";
+    const cloudName = "dgjqg72wo";
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: false,
+        }
+      );
+      return response.data.secure_url;
+    } catch (error) {
+      console.error(
+        "Error uploading file:",
+        error.response ? error.response.data : error.message
+      );
+      return null;
+    }
+  };
+
   const handleImageChange = (e) => {
+    e.preventDefault()
     const files = Array.from(e.target.files)
-    setImages((prev) => [...prev, ...files])
+    setImages((prevImages) => [...prevImages, ...files])
   }
 
-  const uploadToCloudinary = async (image) => {
-    const formData = new FormData()
-    formData.append("file", image)
-    formData.append("upload_preset", "hackathonform") // 
-    formData.append("cloud_name", "dgjqg72wo") // 
-
-    const res = await axios.post("https://api.cloudinary.com/v1_1/dgjqg72wo/image/upload", formData)
-    return res.data.secure_url
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
-      if (images.length === 0) {
-        toast.error("Please upload at least one image.")
-        return
-      }
-    const uploadedImageUrls = await Promise.all(images.map(uploadToCloudinary));
+      const uploadedUrls = await Promise.all(
+        images.map(async (image) => {
+          const url = await handleImageUpload(image);
+          return url;
+        })
+      );
 
     const newForm = new FormData();
+    const validUrls = uploadedUrls.filter((url) => url !== null);
+    validUrls.forEach((url) => newForm.append("images", url));
     newForm.append("name", name);
     newForm.append("description", description);
     newForm.append("category", category);
@@ -77,10 +100,7 @@ const CreateEvent = () => {
     newForm.append("shopId", seller._id);
     newForm.append("start_Date", startDate.toISOString());
     newForm.append("Finish_Date", endDate.toISOString());
-
-    uploadedImageUrls.forEach((url) => newForm.append("images[]", url));
-
-    await dispatch(createevent(newForm)); // Assuming dispatch is returning a promise
+    dispatch(createevent(newForm));
   } catch (err) {
     toast.error("Failed to create event. Please try again.");
     console.error(err);

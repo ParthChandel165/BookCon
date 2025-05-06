@@ -154,6 +154,7 @@ const ChartJS = require("chart.js");
 // create product
 router.post(
     "/create-product",
+    upload.none(),
     catchAsyncErrors(async (req, res, next) => {
         try {
             const shopId = req.body.shopId;
@@ -163,12 +164,17 @@ router.post(
             if (!shop) {
                 return next(new ErrorHandler("Shop Id is invalid!", 400));
             } else {
- 
-            const productData = {
-                ...req.body,
-                images: req.body.images, // This is now an array of Cloudinary URLs
-                shop: shop,
-                };
+                let imageUrls = req.body.images;
+                
+                if (!imageUrls) {
+                    imageUrls = [];
+                } else if (typeof imageUrls === "string") {
+                imageUrls = [imageUrls]; // single image case
+                }
+
+                const productData = req.body;
+                productData.images = imageUrls;
+                productData.shop = shop;
 
                 const product = await Product.create(productData);
 
