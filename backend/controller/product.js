@@ -154,20 +154,19 @@ const ChartJS = require("chart.js");
 // create product
 router.post(
     "/create-product",
-    upload.array("images"),
     catchAsyncErrors(async (req, res, next) => {
         try {
-            const shop = await Shop.findById(req.seller._id);
-            console.log(shop);
+            const shopId = req.body.shopId;
+            const shop = await Shop.findById(shopId);
             if (!shop) {
                 return next(new ErrorHandler("Shop Id is invalid!", 400));
             } else {
-                const files = req.files;
-                const imageUrls = files.map((file) => `${file.filename}`);
-
-                const productData = req.body;
-                productData.images = imageUrls;
-                productData.shop = shop;
+ 
+            const productData = {
+                ...req.body,
+                images: req.body.images, // This is now an array of Cloudinary URLs
+                shop: shop,
+                };
 
                 const product = await Product.create(productData);
 
@@ -391,34 +390,4 @@ router.get(
         }
     })
 );
-
-// GET: Product creation trend for admin dashboard
-router.get(
-    "/admin-product-stats",
-    isAuthenticated,
-    isAdmin("Admin"),
-    catchAsyncErrors(async (req, res, next) => {
-      try {
-        // Product creation trend per month (last 12 months)
-        const monthlyTrend = await Product.aggregate([
-          {
-            $group: {
-              _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
-              count: { $sum: 1 },
-            },
-          },
-          { $sort: { _id: 1 } }, // Sort by month
-        ]);
-  
-        res.status(200).json({
-          success: true,
-          monthlyTrend,
-        });
-      } catch (error) {
-        return next(new ErrorHandler(error.message, 500));
-      }
-    })
-  );
-  
-
 module.exports = router;

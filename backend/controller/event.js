@@ -211,46 +211,34 @@ const fs = require("fs");
  */
 
 // create event
-    router.post(
-        "/create-event",
-        isSeller,
-        catchAsyncErrors(async (req, res, next) => {
+router.post(
+    "/create-event",
+    catchAsyncErrors(async (req, res, next) => {
         try {
-            const shop = await Shop.findById(req.seller._id);
+            const shopId = req.body.shopId;
+            const shop = await Shop.findById(shopId);
+    
             if (!shop) {
             return next(new ErrorHandler("Shop ID is invalid!", 400));
             }
     
-            // Normalize images (ensure it's always an array)
-            const images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
-    
-            // Create the event using updated field names and structure
             const eventData = {
-            name: req.body.name,
-            description: req.body.description,
-            category: req.body.category,
-            tags: req.body.tags,
-            startDate: req.body.startDate,
-            endDate: req.body.endDate,
-            originalPrice: req.body.originalPrice,
-            discountPrice: req.body.discountPrice,
-            stock: req.body.stock,
-            images: images,
-            shop: shop._id, // store only the ObjectId
+            ...req.body,
+            images: req.body.images, // This is now an array of Cloudinary URLs
+            shop: shop,
             };
     
-            const event = await Event.create(eventData);
+            const product = await Event.create(eventData);
     
             res.status(201).json({
             success: true,
-            event,
+            product,
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));
         }
         })
     );
-
 
 // get all events
 router.get("/get-all-events", async (req, res, next) => {
