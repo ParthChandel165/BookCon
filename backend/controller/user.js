@@ -136,7 +136,7 @@ router.post("/create-user", upload.none(), async (req, res, next) => {
 
         const activationToken = createActivationToken(user);
 
-        const activationUrl = `https://bookcon-amber.vercel.app/activation/${activationToken}`;
+        const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
         // send email to user
         try {
