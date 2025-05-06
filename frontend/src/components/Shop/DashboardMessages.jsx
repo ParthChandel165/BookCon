@@ -51,14 +51,14 @@ const DashboardMessages = () => {
             withCredentials: true,
           }
         );
-
+        console.log(resonse.data.conversations);
         setConversations(resonse.data.conversations);
       } catch (error) {
         // console.log(error);
       }
     };
     getConversation();
-  }, [seller, messages]);
+  }, []);
 
   useEffect(() => {
     if (seller) {
@@ -274,6 +274,7 @@ const MessageList = ({
     const getUser = async () => {
       try {
         const res = await axios.get(`${server}/user/user-info/${userId}`);
+        console.log(res.data.user);
         setUser(res.data.user);
       } catch (error) {
         console.log(error);
@@ -310,10 +311,12 @@ const MessageList = ({
       <div className="pl-3">
         <h1 className="text-[18px]">{user?.name}</h1>
         <p className="text-[16px] text-[#000c]">
-          {data?.lastMessageId !== user?._id
-            ? "You:"
-            : (user?.name ? user.name.split(" ")[0] : "") + ": "}
-          {data?.lastMessage}
+          {
+            !data.lastMessageId ? 'Start a conversation' : data?.lastMessageId !== user?._id
+              ? "You:"
+              : (user?.name ? user.name.split(" ")[0] : "") + ": "}
+            {data?.lastMessage
+          }
         </p>
       </div>
     </div>
