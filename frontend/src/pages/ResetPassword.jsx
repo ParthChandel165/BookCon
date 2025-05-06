@@ -30,7 +30,7 @@ const ResetPassword = () => {
       setLoading(true);
 
       const { data } = await axios.put(
-        `hhttps://bookcon-backend.onrender.com/api/v2/user/reset-password/${token}`,
+        `https://bookcon-backend.onrender.com/api/v2/user/reset-password/${token}`,
         { password },
         { headers: { "Content-Type": "application/json" } }
       );

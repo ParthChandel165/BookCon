@@ -37,9 +37,16 @@ const Login = () => {
     }
   }
 
-  const navigateToSellerLogin = () => {
-    navigate("/shop-login")
-  }
+  const navigateToSellerLogin = async () => {
+    try {
+      await axios.get(`${server}/user/logout`, {
+        withCredentials: true,
+      });
+    } catch (e) {
+      console.warn("No buyer session to clear");
+    }
+    navigate("/shop-login");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100 p-4">

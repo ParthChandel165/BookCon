@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getAllUsers } from "../../redux/actions/user";
 import { DataGrid } from "@material-ui/data-grid";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Button } from "@material-ui/core";
@@ -12,23 +9,35 @@ import { toast } from "react-toastify";
 import styles from "../../styles/styles";
 
 const AllUsers = () => {
-  const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.user);
+  const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
 
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(`${server}/user/admin-all-users`, {
+        withCredentials: true,
+      });
+      setUsers(res.data.users);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to fetch users");
+    }
+  };
+
   useEffect(() => {
-    dispatch(getAllUsers());
-  }, [dispatch]);
+    fetchUsers();
+  }, []);
 
   const handleDelete = async (id) => {
-    await axios
-      .delete(`${server}/user/delete-user/${id}`, { withCredentials: true })
-      .then((res) => {
-        toast.success(res.data.message);
+    try {
+      const res = await axios.delete(`${server}/user/delete-user/${id}`, {
+        withCredentials: true,
       });
-
-    dispatch(getAllUsers());
+      toast.success(res.data.message);
+      fetchUsers(); // refresh after deletion
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Failed to delete user");
+    }
   };
 
   const columns = [
@@ -87,14 +96,14 @@ const AllUsers = () => {
     name: item.name,
     email: item.email,
     role: item.role,
-    joinedAt: item.createdAt.slice(0, 10),
+    joinedAt: item.createdAt?.slice(0, 10),
   }));
 
   return (
     <div className="w-full flex justify-center pt-5">
       <div className="w-[97%]">
         <div className="w-full min-h-[45vh] bg-white rounded-lg shadow-lg p-4">
-        <h5 className="text-[22px] font-Poppins pb-2">All Users</h5>
+          <h5 className="text-[22px] font-Poppins pb-2">All Users</h5>
           <DataGrid
             rows={rows}
             columns={columns}

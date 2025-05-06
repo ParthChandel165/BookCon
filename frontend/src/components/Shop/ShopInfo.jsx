@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getAllProductsShop } from "../../redux/actions/product";
 import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
 import Loader from "../Layout/Loader";
+import { toast } from "react-toastify";
 
 
 
@@ -13,7 +14,7 @@ const ShopInfo = ({ isOwner }) => {
     const [data, setData] = useState({});
     const { products } = useSelector((state) => state.products);
     const [isLoading, setIsLoading] = useState(false);
-
+    const navigate = useNavigate();
     const { id } = useParams();
     const dispatch = useDispatch();
 
@@ -32,12 +33,19 @@ const ShopInfo = ({ isOwner }) => {
 
 
     const logoutHandler = async () => {
-        axios.get(`${server}/shop/logout`, {
-            withCredentials: true,
-        });
-        window.location.reload();
+        try {
+            await axios.get(`${server}/shop/logout`, {
+                withCredentials: true,
+            });
+            dispatch({ type: "LOGOUT_SUCCESS" }); 
+            toast.success("Logged out successfully");
+            navigate("/login");
+            window.location.reload();
+        } catch (error) {
+            toast.error("Logout failed");
+            console.error("Logout failed:", error);
+        }
     };
-
 
     const totalReviewsLength =
         products &&
