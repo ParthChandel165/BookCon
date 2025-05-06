@@ -330,6 +330,43 @@ router.get(
     })
 );
 
+// GET: Product creation trend for admin dashboard
+router.get(
+    "/admin-product-stats",
+    isAuthenticated,
+    isAdmin("Admin"),
+    catchAsyncErrors(async (req, res, next) => {
+      try {
+        const hourlyTrend = await Product.aggregate([
+          {
+            $group: {
+              _id: {
+                $dateToString: {
+                  format: "%Y-%m-%d-%H", // Safe, colon-free format
+                  date: "$createdAt"
+                }
+              },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { _id: 1 } },
+          { $limit: 50 } // Limit to most recent 50 data points for performance
+        ]);
+  
+        console.log("Sending hourly trend data:", hourlyTrend); // Confirm data structure
+  
+        res.status(200).json({
+          success: true,
+          hourlyTrend // The frontend expects this exact property name
+        });
+      } catch (error) {
+        console.error("Error in admin-product-stats:", error);
+        return next(new ErrorHandler(error.message, 500));
+      }
+    })
+  );
+  
+
 // Route to generate a genre distribution chart
 router.get(
     "/genre-chart/:id", // shopId will be passed in the URL
