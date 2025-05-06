@@ -216,7 +216,9 @@ router.post(
     catchAsyncErrors(async (req, res, next) => {
         try {
             const shopId = req.body.shopId;
+            console.log(`Shop ID : ${shopId}`);
             const shop = await Shop.findById(shopId);
+            console.log(`Shop : ${shop}`);
     
             if (!shop) {
             return next(new ErrorHandler("Shop ID is invalid!", 400));
@@ -224,7 +226,7 @@ router.post(
     
             const eventData = {
             ...req.body,
-            images: req.body.images, // This is now an array of Cloudinary URLs
+            images: req.body.images,
             shop: shop,
             };
     
