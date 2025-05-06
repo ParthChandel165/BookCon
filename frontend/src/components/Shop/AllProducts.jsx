@@ -124,7 +124,7 @@ const AllProducts = () => {
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Button
-          onClick={() => handleDeleteClick(params.id)}
+          onClick={(e) => handleDeleteClick(params.id,e)}
           className="min-w-[30px] p-1 rounded-full bg-red-50 hover:bg-red-100"
         >
           <AiOutlineDelete size={18} className="text-red-600" />
