@@ -93,7 +93,7 @@ const ShopProfileData = ({ isOwner }) => {
               {allReviews.map((item, index) => (
                 <div key={index} className="flex p-4 border rounded-lg hover:bg-gray-50">
                   <img
-                    src={`${backend_url}/${item.user.avatar}`}
+                    src={`${item.user.avatar}`}
                     className="w-[50px] h-[50px] rounded-full object-cover"
                     alt="User Avatar"
                   />
