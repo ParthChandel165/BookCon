@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { getAllProductsShop, deleteProduct } from "../../redux/actions/product"
 import Loader from "../Layout/Loader"
-
+import { toast } from "react-toastify"
 // ✅ MUI v4 styles using makeStyles
 const useStyles = makeStyles(() => ({
   dataGrid: {
@@ -34,15 +34,21 @@ const AllProducts = () => {
   }, [dispatch, seller._id])
 
   const handleDeleteClick = (id) => {
+    e.preventDefault(); 
     setProductToDelete(id)
     setShowConfirmation(true)
   }
 
   const confirmDelete = () => {
     if (productToDelete) {
-      dispatch(deleteProduct(productToDelete))
+      try{
+        dispatch(deleteProduct(productToDelete))
       setShowConfirmation(false)
+      toast.success("Deleted Product Successfully!")
       window.location.reload()
+      }catch(err){
+        toast.error("An error occurred while deleting the product")
+      }
     }
   }
 

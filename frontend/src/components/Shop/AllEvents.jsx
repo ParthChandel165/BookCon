@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { deleteEvent, getAllEventsShop } from "../../redux/actions/event"
 import Loader from "../Layout/Loader"
-
+import { toast } from "react-toastify"
 const AllEvents = () => {
   const { events, isLoading } = useSelector((state) => state.events)
   const { seller } = useSelector((state) => state.seller)
@@ -22,15 +22,22 @@ const AllEvents = () => {
   }, [dispatch])
 
   const handleDeleteClick = (id) => {
+    e.preventDefault(); 
     setEventToDelete(id)
     setShowConfirmation(true)
   }
 
   const confirmDelete = () => {
     if (eventToDelete) {
-      dispatch(deleteEvent(eventToDelete))
-      setShowConfirmation(false)
-      window.location.reload()
+      try{
+        dispatch(deleteEvent(eventToDelete))
+        setShowConfirmation(false)
+        toast.success("Deleted Event Successfully!")
+        window.location.reload()
+        }catch(err){
+          toast.error("An error occurred while deleting the product")
+        }
+      
     }
   }
 
