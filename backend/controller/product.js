@@ -391,4 +391,34 @@ router.get(
         }
     })
 );
+
+// GET: Product creation trend for admin dashboard
+router.get(
+    "/admin-product-stats",
+    isAuthenticated,
+    isAdmin("Admin"),
+    catchAsyncErrors(async (req, res, next) => {
+      try {
+        // Product creation trend per month (last 12 months)
+        const monthlyTrend = await Product.aggregate([
+          {
+            $group: {
+              _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+              count: { $sum: 1 },
+            },
+          },
+          { $sort: { _id: 1 } }, // Sort by month
+        ]);
+  
+        res.status(200).json({
+          success: true,
+          monthlyTrend,
+        });
+      } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+      }
+    })
+  );
+  
+
 module.exports = router;
