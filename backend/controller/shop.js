@@ -344,7 +344,7 @@ router.post("/create-shop", upload.none(), async (req, res, next) => {
 
         const activationToken = createActivationToken(seller);
 
-        const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
+        const activationUrl = `https://bookcon-amber.vercel.app/seller/activation/${activationToken}`;
 
         try {
             await sendMail({
