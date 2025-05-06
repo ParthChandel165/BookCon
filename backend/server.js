@@ -24,7 +24,8 @@ connectDatabase();
 
 // create server
 const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
+  const backendUrl = process.env.BACKEND_SERVER_URL || `http://localhost:${process.env.PORT}`;
+  console.log(`Server is running on ${backendUrl}`);
 });
 
 // middlewares
@@ -34,7 +35,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000","https://bookcon-amber.vercel.app/"],
     credentials: true,
   })
 );

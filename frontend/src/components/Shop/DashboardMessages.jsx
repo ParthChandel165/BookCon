@@ -9,7 +9,7 @@ import styles from "../../styles/styles";
 import { TfiGallery } from "react-icons/tfi";
 import socketIO from "socket.io-client";
 import { format } from "timeago.js";
-const ENDPOINT = `${process.env.NODE_ENV === "PRODUCTION" ? "https://bookcon-sockets.onrender.com" : "http://localhost:4000/"}`;
+const ENDPOINT = "https://bookcon-sockets.onrender.com"
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const DashboardMessages = () => {
