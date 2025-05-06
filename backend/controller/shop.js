@@ -538,18 +538,20 @@ router.get(
 router.put(
     "/update-shop-avatar",
     isSeller,
-    upload.single("image"),
     catchAsyncErrors(async (req, res, next) => {
         try {
             const existsUser = await Shop.findById(req.seller._id);
-            const existAvatarPath = `uploads/${existsUser.avatar}`;
-            fs.unlinkSync(existAvatarPath);
+            const { avatarUrl } = req.body; // Get the Cloudinary URL from the request body
 
-            const fileUrl = path.join(req.file.filename);
+            if (!avatarUrl) {
+                return next(new ErrorHandler("No image URL provided", 400)); // Handle if the URL is missing
+            }
 
-            const seller = await Shop.findByIdAndUpdate(req.seller._id, {
-                avatar: fileUrl,
-            });
+            const seller = await Shop.findByIdAndUpdate(
+                req.seller._id,
+                { avatar: avatarUrl },
+                { new: true } // Return the updated document
+            );
 
             res.status(200).json({
                 success: true,
