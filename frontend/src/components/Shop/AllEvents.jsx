@@ -27,7 +27,7 @@ const AllEvents = () => {
     setShowConfirmation(true)
   }
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (eventToDelete) {
       try{
         await dispatch(deleteEvent(eventToDelete))
