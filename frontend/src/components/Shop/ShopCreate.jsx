@@ -24,26 +24,27 @@ const ShopCreate = () => {
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0]
     setAvatar(file)
-
-    // Create FormData to upload the image to Cloudinary
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("upload_preset", "hackathonform")
-    try {
-      const res = await axios.post("https://api.cloudinary.com/v1_1/dgjqg72wo/image/upload", formData)
-      setAvatarUrl(res.data.secure_url)  // Cloudinary URL for the uploaded image
-    } catch (error) {
-      toast.error("Image upload failed!")
-    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
+    // Create FormData to upload the image to Cloudinary
+    const formData = new FormData()
+    formData.append("file", avatar)
+    formData.append("upload_preset", "hackathonform")
+    let res;
+    try {
+      res = await axios.post("https://api.cloudinary.com/v1_1/dgjqg72wo/image/upload", formData)
+      console.log(res.data);
+      setAvatarUrl(res.data.secure_url)  // Cloudinary URL for the uploaded image
+    } catch (error) {
+      toast.error("Image upload failed!")
+    }
 
     // Create FormData for submitting the shop data including the Cloudinary URL for the avatar
     const newForm = new FormData()
-    newForm.append("avatarUrl", avatarUrl)  // Add the Cloudinary URL here
+    newForm.append("avatarUrl", res.data.secure_url)  // Add the Cloudinary URL here
     newForm.append("name", name)
     newForm.append("email", email)
     newForm.append("password", password)

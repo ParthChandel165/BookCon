@@ -119,13 +119,14 @@ dotenv.config();
 
 router.post("/create-user", upload.none(), async (req, res, next) => {
     try {
-        const { name, email, password, avatarUrl } = req.body;
+        console.log(req.body);
+        const { name, email, password, avatar } = req.body;
         const userEmail = await User.findOne({ email });
 
         if (userEmail) {
             return next(new ErrorHandler("User already exits", 400));
         }
-        const fileUrl = avatarUrl
+        const fileUrl = avatar
 
         const user = {
             name: name,
@@ -136,7 +137,7 @@ router.post("/create-user", upload.none(), async (req, res, next) => {
 
         const activationToken = createActivationToken(user);
 
-        const activationUrl = `https://bookcon-amber.vercel.app//activation/${activationToken}`;
+        const activationUrl = `https://bookcon-amber.vercel.app/activation/${activationToken}`;
 
         // send email to user
         try {
@@ -162,7 +163,7 @@ const createActivationToken = (user) => {
     // why use create activatetoken?
     // to create a token for the user to activate their account  after they register
     return jwt.sign(user, process.env.ACTIVATION_SECRET, {
-        expiresIn: "5m",
+        expiresIn: "1y",
     });
 };
 
@@ -195,7 +196,7 @@ router.post(
     catchAsyncErrors(async (req, res, next) => {
         try {
             const { activation_token } = req.body;
-
+            console.log(`Activation token : ${activation_token}`)
             const newUser = jwt.verify(
                 activation_token,
                 process.env.ACTIVATION_SECRET
@@ -213,7 +214,7 @@ router.post(
             user = await User.create({
                 name,
                 email,
-                avatar,
+                avatarUrl,
                 password,
             });
             sendToken(user, 201, res);

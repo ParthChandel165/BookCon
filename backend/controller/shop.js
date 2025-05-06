@@ -331,7 +331,7 @@ router.post("/create-shop", upload.none(), async (req, res, next) => {
         if (sellerEmail) {
             return next(new ErrorHandler("Shop already exits", 400));
         }
-
+        console.log(req.body);
         const seller = {
             name: req.body.name,
             email: email,
@@ -366,6 +366,7 @@ router.post("/create-shop", upload.none(), async (req, res, next) => {
 
 // create activation token
 const createActivationToken = (seller) => {
+    console.log(seller);
     return jwt.sign(seller, process.env.ACTIVATION_SECRET, {
         expiresIn: "5m",
     });
@@ -377,11 +378,13 @@ router.post(
     catchAsyncErrors(async (req, res, next) => {
         try {
             const { activation_token } = req.body;
-
+            console.log(`Activation token : ${activation_token}`)
             const newSeller = jwt.verify(
                 activation_token,
                 process.env.ACTIVATION_SECRET
             );
+
+            console.log(newSeller);
 
             if (!newSeller) {
                 return next(new ErrorHandler("Invalid token", 400));
@@ -414,6 +417,7 @@ router.post(
 
             sendShopToken(seller, 201, res);
         } catch (error) {
+            console.log(error.message + " pussyyy");
             return next(new ErrorHandler(error.message, 500));
         }
     })

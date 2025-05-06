@@ -32,7 +32,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        `https://api.cloudinary.com/v1_1/dgjqg72wo/image/upload`,
         formData,
         {
           headers: {
@@ -62,7 +62,7 @@ const Signup = () => {
         return
       }
     }
-
+    console.log(`Avatar URL @ Frontend: ${avatarUrl}`)
     try {
       const response = await axios.post(
         `${server}/user/create-user`,
@@ -85,6 +85,7 @@ const Signup = () => {
     } finally {
       setIsLoading(false)
     }
+    window.location.reload()
   }
 
   return (
@@ -169,7 +170,7 @@ const Signup = () => {
 
               {/* Avatar */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Profile Picture</label>
+                <label htmlFor="avatar" className="text-sm font-medium text-gray-700">Profile Picture</label>
                 <div className="flex items-center space-x-4">
                   <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border-2 border-amber-200">
                     {avatar ? (
@@ -178,17 +179,9 @@ const Signup = () => {
                       <RxAvatar className="h-10 w-10 text-gray-400" />
                     )}
                   </div>
-                  <label
-                    htmlFor="file-input"
-                    className="px-4 py-2 bg-white border rounded-md shadow-sm text-sm font-medium text-gray-700 cursor-pointer hover:bg-gray-50"
-                  >
-                    Upload a photo
-                    <input
-                      type="file"
-                      accept=".jpg,.jpeg,.png"
-                      onChange={(e) => setAvatar(e.target.files[0])}
-                      className="sr-only"
-                    />
+                  <label htmlFor="file-input" className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer transition-colors">
+                    <span>Upload a file</span>
+                    <input type="file" name="avatar" id="file-input" onChange={(e) => setAvatar(e.target.files[0])} accept=".jpg,.jpeg,.png" className="sr-only" />
                   </label>
                 </div>
                 <p className="text-xs text-gray-500">JPG, JPEG or PNG. Max 1MB.</p>
