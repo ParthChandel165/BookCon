@@ -70,7 +70,7 @@ const DashboardHeader = () => {
           <Link to={`/shop/${seller._id}`} className="ml-2">
             <div className="relative group">
               <img
-                src={`${backend_url}${seller.avatar}`}
+                src={`${seller.avatar}`}
                 alt="Seller Avatar"
                 className="w-[40px] h-[40px] rounded-full object-cover border-2 border-gray-200 hover:border-crimson transition-all duration-200"
               />
