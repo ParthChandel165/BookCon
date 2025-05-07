@@ -24,9 +24,9 @@ client.on('ready', () => {
 const connectRedis = async () => {
     try {
         await client.connect();
-        console.log('✅ Connected to Redis!');
+        console.log('Connected to Redis!');
     } catch (err) {
-        console.error('❌ Error while connecting to Redis:', err);
+        console.error('Error while connecting to Redis:', err);
     }
 };
 
