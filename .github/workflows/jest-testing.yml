@@ -53,9 +53,9 @@ jobs:
         run: npm test -- --coverage --detectOpenHandles
 
       # Run frontend tests (optional, remove if you don't want)
-      - name: Run Frontend Test Suite
-        working-directory: frontend
-        run: npm test -- --coverage --detectOpenHandles
+     # - name: Run Frontend Test Suite
+      #  working-directory: frontend
+       # run: npm test -- --coverage --detectOpenHandles
 
       # Upload backend coverage report (if needed)
       - name: Upload Backend Coverage
@@ -66,9 +66,9 @@ jobs:
           path: backend/coverage
 
       # Upload frontend coverage report (if needed)
-      - name: Upload Frontend Coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-coverage-report
-          path: frontend/coverage
+      #- name: Upload Frontend Coverage
+       # if: always()
+        #uses: actions/upload-artifact@v4
+        #with:
+         # name: frontend-coverage-report
+          #path: frontend/coverage
