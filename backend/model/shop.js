@@ -10,6 +10,11 @@ const shopSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please enter your shop email address"],
+    unique: true,
+    match: [
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+      "Please enter a valid email address",
+    ],
   },
   password: {
     type: String,
@@ -25,9 +30,10 @@ const shopSchema = new mongoose.Schema({
     required: true,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
-  },
+    match: [/^\d{10}$/, "Please enter a valid 10-digit phone number"],
+  },  
   role: {
     type: String,
     default: "Seller",
@@ -76,17 +82,28 @@ const shopSchema = new mongoose.Schema({
 
 // Hash password
 shopSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
   }
-  this.password = await bcrypt.hash(this.password, 10);
+
+  if (this.isModified("transections")) {
+    this.transections.forEach((t) => {
+      t.updatedAt = new Date();
+    });
+  }
+
+  next();
 });
 
 // jwt token
 shopSchema.methods.getJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRES,
-  });
+  return jwt.sign(
+    { id: this._id },
+    process.env.JWT_SECRET_KEY || "fallbackSecret",
+    {
+      expiresIn: process.env.JWT_EXPIRES || "7d",
+    }
+  );
 };
 
 // comapre password
