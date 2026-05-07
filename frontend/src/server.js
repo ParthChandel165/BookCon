@@ -1,3 +1,3 @@
-export const server = "https://bookcon-backend.onrender.com/api/v2";
+export const server = "https://bookcon-backend.vercel.app/";
 
-export const backend_url = "https://bookcon-backend.onrender.com";
+export const backend_url = "https://bookcon-backend.vercel.app/";
