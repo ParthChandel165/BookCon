@@ -13,16 +13,30 @@ const ErrorHandler = require("./middleware/error");
 const connectDatabase = require("./db/Database");
 const swaggerDocs = require("./swagger/swagger");
 
-// Validate required environment variables
-["PORT", "DB_URL", "JWT_SECRET_KEY"].forEach(env => {
+// Validate required environment variables (PORT is optional on Vercel)
+["DB_URL", "JWT_SECRET_KEY"].forEach(env => {
   if (!process.env[env]) throw new Error(`${env} environment variable is missing`);
 });
 
-// Connect to Redis and Database
-connectRedis();
+// Connect to Database
 connectDatabase();
 
+// Connect to Redis (graceful - don't crash if unavailable)
+try {
+  connectRedis();
+} catch (err) {
+  console.error("Redis connection failed:", err.message);
+}
+
 const app = express();
+
+// CORS MUST be first — before helmet, rate limiting, or anything else
+app.use(
+  cors({
+    origin: ["http://localhost:3000","https://bookcon-amber.vercel.app"],
+    credentials: true,
+  })
+);
 
 // Security: Set HTTP headers
 app.use(helmet());
@@ -39,14 +53,6 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again later."
 });
 app.use(limiter);
-
-// Enable CORS for all routes
-app.use(
-  cors({
-    origin: ["http://localhost:3000","https://bookcon-amber.vercel.app"],
-    credentials: true,
-  })
-);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -105,35 +111,38 @@ app.use((err, req, res, next) => {
 // Global error handler
 app.use(ErrorHandler);
 
-// Start server
-const server = app.listen(process.env.PORT, () => {
-  const backendUrl = process.env.BACKEND_SERVER_URL || `http://localhost:${process.env.PORT}`;
-  console.log(`Server is running on ${backendUrl}`);
-});
-
-// Handle uncaught exceptions
-process.on("uncaughtException", (err) => {
-  console.error(`Uncaught Exception: ${err.message}`);
-  process.exit(1);
-});
-
-// Handle unhandled promise rejections
-process.on("unhandledRejection", (err) => {
-  console.error(`Unhandled Rejection: ${err.message}`);
-  server.close(() => process.exit(1));
-});
-
-// Graceful shutdown on SIGTERM/SIGINT
-const gracefulShutdown = () => {
-  server.close(async () => {
-    if (global.mongoose) await global.mongoose.disconnect();
-    // If using Redis: if (redisClient) await redisClient.quit();
-    console.log('Server closed gracefully');
-    process.exit(0);
+// Only start server when NOT running on Vercel (Vercel handles this itself)
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 8000;
+  const server = app.listen(PORT, () => {
+    const backendUrl = process.env.BACKEND_SERVER_URL || `http://localhost:${PORT}`;
+    console.log(`Server is running on ${backendUrl}`);
   });
-};
-process.on('SIGTERM', gracefulShutdown);
-process.on('SIGINT', gracefulShutdown);
+
+  // Handle uncaught exceptions
+  process.on("uncaughtException", (err) => {
+    console.error(`Uncaught Exception: ${err.message}`);
+    process.exit(1);
+  });
+
+  // Handle unhandled promise rejections
+  process.on("unhandledRejection", (err) => {
+    console.error(`Unhandled Rejection: ${err.message}`);
+    server.close(() => process.exit(1));
+  });
+
+  // Graceful shutdown on SIGTERM/SIGINT
+  const gracefulShutdown = () => {
+    server.close(async () => {
+      if (global.mongoose) await global.mongoose.disconnect();
+      // If using Redis: if (redisClient) await redisClient.quit();
+      console.log('Server closed gracefully');
+      process.exit(0);
+    });
+  };
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('SIGINT', gracefulShutdown);
+}
 
 // Export for Vercel serverless
 module.exports = app;
