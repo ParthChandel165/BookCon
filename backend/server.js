@@ -134,3 +134,6 @@ const gracefulShutdown = () => {
 };
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
+
+// Export for Vercel serverless
+module.exports = app;
