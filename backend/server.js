@@ -31,9 +31,24 @@ try {
 const app = express();
 
 // CORS MUST be first — before helmet, rate limiting, or anything else
+const allowedOrigins = ["http://localhost:3000", "https://bookcon-amber.vercel.app"];
+
+// Explicitly handle preflight OPTIONS requests
+app.options("*", (req, res) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Cookie");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "86400");
+  res.status(204).end();
+});
+
 app.use(
   cors({
-    origin: ["http://localhost:3000","https://bookcon-amber.vercel.app"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
